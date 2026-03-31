@@ -1,0 +1,363 @@
+/* =====================================================
+   ESTILOS PERSONALIZADOS - IAparatodos 
+   Versión Moderna - Diciembre 2025
+===================================================== */
+
+/* Variables de color modernas */
+:root {
+  --primary-gradient-start: #6366f1;
+  --primary-gradient-end: #8b5cf6;
+  --accent-color: #ec4899;
+  --bg-main: #fafbfc;
+  --bg-card: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-light: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Fuente principal con system fonts modernos */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Botones de tarjeta modernos con diseño premium */
+.btn-card {
+  background: var(--bg-card);
+  border: 2px solid transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 2rem 1.5rem;
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btn-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.btn-card:hover::before {
+  opacity: 1;
+}
+
+.btn-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-xl);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.btn-card:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+/* Encabezado con gradiente moderno y vibrante */
+.header-gradient {
+  background: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 50%, var(--accent-color) 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-gradient::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: rotate-gradient 20s linear infinite;
+}
+
+@keyframes rotate-gradient {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Contenedor principal con mejor espaciado */
+.main-container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 80vh;
+  padding: 2rem 1rem;
+}
+
+/* Imagen del encabezado con estilo premium */
+.header-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-xl);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.header-image:hover {
+  transform: scale(1.02);
+}
+
+/* Campos de entrada modernos con mejor UX */
+.contact-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--border-light);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.contact-input:hover {
+  border-color: #cbd5e1;
+}
+
+.contact-input:focus {
+  outline: none;
+  border-color: var(--primary-gradient-start);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background-color: #ffffff;
+}
+
+.contact-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Animación de fondo sutil mejorada */
+@keyframes subtle-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.page-content-wrapper {
+  background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 50%, #fafbfc 100%);
+  background-size: 200% 200%;
+  animation: subtle-gradient 15s ease infinite;
+}
+
+/* Clases de utilidad */
+.hidden {
+  display: none;
+}
+
+/* Mejoras de accesibilidad para enlaces */
+a {
+  color: var(--primary-gradient-start);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+a:hover {
+  color: var(--primary-gradient-end);
+}
+
+a:focus {
+  outline: 2px solid var(--primary-gradient-start);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  transition: width 0.3s ease;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+/* Transiciones suaves para elementos interactivos */
+button, a, input, textarea, select {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Estilos para modales con efecto glassmorphism */
+.modal-overlay {
+  backdrop-filter: blur(8px) saturate(150%);
+  background-color: rgba(15, 23, 42, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+/* Tarjetas de contenido */
+.card {
+  background: var(--bg-card);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-light);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Textos mejorados */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--primary-gradient-end), var(--accent-color));
+}
+
+/* Responsive design mejorado */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+  
+  .main-container {
+    padding: 1rem 0.75rem;
+  }
+  
+  .btn-card {
+    padding: 1.5rem 1rem;
+    min-height: 120px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animación de entrada para elementos */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Estados de carga y disabled */
+button:disabled, .btn-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Efectos de selección */
+::selection {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: var(--text-primary);
+}

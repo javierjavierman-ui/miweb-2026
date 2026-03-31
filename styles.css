@@ -1,0 +1,141 @@
+/* =====================================================
+   | ESTILOS PERSONALIZADOS - IAparatodos              |
+   ===================================================== */
+
+/* Fuente principal */
+body {
+    font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #f0f4f8;
+    transition: all 0.3s ease;
+}
+
+/* Botones de tarjeta modernos */
+.btn-card {
+    background-color: rgb(239 246 255); /* bg-blue-50 */
+    border: 1px solid rgb(191 219 254); /* border-blue-200 */
+    color: rgb(31 41 55); /* text-gray-800 */
+    font-weight: bold;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    min-height: 120px;
+}
+
+.btn-card:hover {
+    background-color: rgb(219 234 254); /* bg-blue-100 */
+}
+
+/* Efecto flotante al pasar el ratÃ³n */
+.btn-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    ring: 4px;
+    ring-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Encabezado con gradiente */
+.header-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #a855f7 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor principal */
+.main-container {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 80vh;
+}
+
+/* Imagen del encabezado */
+.header-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    ring: 4px;
+    ring-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Campos de entrada del formulario de contacto */
+.contact-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgb(209 213 219); /* border-gray-300 */
+    border-radius: 0.5rem;
+    transition: all 0.15s ease;
+}
+
+.contact-input:focus {
+    outline: none;
+    border-color: rgb(168 85 247); /* purple-500 */
+    ring: 2px;
+    ring-color: rgb(168 85 247);
+}
+
+/* AnimaciÃ³n de fondo sutil */
+@keyframes pulse-bg {
+    0% { 
+        background-color: #f0f4f8; 
+    }
+    50% { 
+        background-color: #e5e7eb; 
+    }
+    100% { 
+        background-color: #f0f4f8; 
+    }
+}
+
+.page-content-wrapper {
+    animation: pulse-bg 10s infinite ease-in-out;
+}
+
+/* Clases de utilidad adicionales */
+.hidden {
+    display: none;
+}
+
+/* Mejoras de accesibilidad para enlaces */
+a:focus {
+    outline: 2px solid rgb(79 70 229);
+    outline-offset: 2px;
+}
+
+/* Transiciones suaves para todos los elementos interactivos */
+button, a {
+    transition: all 0.3s ease;
+}
+
+/* Estilos para modales */
+.modal-overlay {
+    backdrop-filter: blur(4px);
+}
+
+.bg-light-blue-500 {
+    background-color: #38bdf8;
+}
+
+.flashing-button {
+    animation: flash 1.5s infinite;
+}
+
+@keyframes flash {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
