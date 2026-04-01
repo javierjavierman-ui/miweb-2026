@@ -1,0 +1,9 @@
+{
+  "name": "miweb-2026",
+  "version": "1.0.0",
+  "description": "IAparatodos project",
+  "main": "index.html",
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  }
+}
