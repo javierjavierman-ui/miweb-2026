@@ -25,13 +25,13 @@
     <!-- ==================== LOGIN SCREEN ==================== -->
     <div id="login-form" class="login-screen">
         <div class="glass login-card">
-            <img src="assets/images/logo_iaparaseniors (1).svg" alt="IAparaseniors Logo" class="login-logo">
+            <img src="assets/images/Foto clase" alt="IAparaseniors Logo" class="login-logo">
             <h1>Acceso al Panel</h1>
             <p class="login-subtitle">IAparaseniors — La IA a tu alcance</p>
             <form id="credentials-form">
                 <div class="form-group">
-                    <label for="username">Correo electrónico</label>
-                    <input id="username" name="username" type="email" autocomplete="email" required placeholder="tu@email.com">
+                    <label for="username">Usuario</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required placeholder="Usuario">
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña</label>
@@ -48,7 +48,7 @@
         <!-- NAVBAR -->
         <nav class="glass navbar">
             <div class="nav-brand">
-                <img src="assets/images/logo_iaparaseniors (1).svg" alt="IAparaseniors Logo">
+                <img src="assets/images/Foto clase" alt="IAparaseniors Logo">
                 <span>IAparaseniors</span>
             </div>
             <p class="nav-tagline">La Inteligencia Artificial está en nuestras vidas</p>
@@ -61,6 +61,7 @@
         <section class="hero">
             <h1>IAparaseniors: La IA a tu alcance</h1>
             <p class="hero-sub">Tu espacio de aprendizaje sobre Inteligencia Artificial</p>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent);">¿Te atreves con la Inteligencia artificial?</h2>
             <div class="glass hero-video-card">
                 <video src="assets/videos/ia-facil.mp4" playsinline controls></video>
             </div>
@@ -93,10 +94,11 @@
                 <!-- Contact & Project Info -->
                 <div class="glass contact-bar">
                     <div class="contact-info-text">
-                        <p><i class="fas fa-globe"></i> Dominio: maristasdel76.es</p>
+                        <p><i class="fas fa-globe"></i> Dominio: iaparaseniors.org</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">(Domain maristasdel76.es should be used just for tests)</p>
                         <p><i class="fas fa-envelope"></i> Email: javier@iaparaseniors.org</p>
                     </div>
-                    <button onclick="scrollToSection('section-quiensoy')" class="btn-about">
+                    <button onclick="toggleModal('modal-quiensoy')" class="btn-about">
                         <i class="fas fa-user-circle"></i> ¿Quién soy?
                     </button>
                 </div>
@@ -242,9 +244,12 @@
                 </ul>
             </div>
 
-            <!-- ===== QUIÉN SOY (Inline Section) ===== -->
-            <section id="section-quiensoy" class="about-section">
-                <div class="glass about-card">
+            <!-- ===== QUIÉN SOY (Modal) ===== -->
+            <div id="modal-quiensoy" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);" onclick="if(event.target.id === 'modal-quiensoy') toggleModal('modal-quiensoy')">
+                <div class="glass about-card relative max-h-[90vh] overflow-y-auto" style="width: 100%; max-width: 700px;">
+                    <button onclick="toggleModal('modal-quiensoy')" class="absolute top-4 right-4 text-white hover:text-red-500" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
                     <h3 class="about-title">Acerca de Javier</h3>
                     <p class="about-bio">
                         Entusiasta en constante formación en el ámbito de la Inteligencia Artificial, enfocado en cómo estas tecnologías pueden aplicarse de manera práctica y ética. En el proyecto <strong>«IAparatodos»</strong> intento combinar la capacidad de sintetizar contenidos con la de explicar conceptos complejos, para que sean accesibles a usuarios interesados en aprender y usar la Inteligencia Artificial.
@@ -268,7 +273,7 @@
                         <i class="fas fa-external-link-alt"></i> Ver Currículum Vitae
                     </a>
                 </div>
-            </section>
+            </div>
 
         </div><!-- /section-container -->
 
@@ -280,8 +285,7 @@
 
     </div><!-- /main-content -->
 
-    <!-- Supabase JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
     <script src="auth.js"></script>
 </body>
