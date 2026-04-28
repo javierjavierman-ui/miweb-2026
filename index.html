@@ -37,9 +37,9 @@
         <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-6 text-center text-gray-800">Acceso al Panel</h1>
         <form id="credentials-form" class="space-y-6">
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
+                <label for="username" class="block text-sm font-medium text-gray-700">Usuario (Correo electrónico)</label>
                 <div class="mt-1">
-                    <input id="username" name="username" type="text" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <input id="username" name="username" type="email" autocomplete="email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
             </div>
 
@@ -62,8 +62,11 @@
     <div id="main-content" style="display: none;" class="w-full min-h-[80vh] mt-20 p-4 md:p-8 bg-white shadow-2xl border-t-8 border-indigo-500 mx-auto">
 
         <!-- ENCABEZADO PRINCIPAL -->
-        <header class="header-gradient p-8 rounded-t-xl text-center shadow-2xl mb-8">
-            <div class="flex justify-center items-center space-x-8">
+        <header class="header-gradient p-8 rounded-t-xl text-center shadow-2xl mb-8 relative">
+            <button onclick="cerrarSesion()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-gray-800 backdrop-blur font-bold py-2 px-4 rounded-full text-sm transition duration-300 shadow-sm border border-gray-300 pointer-events-auto">
+                <i class="fas fa-sign-out-alt mr-2 text-red-500"></i> Cerrar Sesión
+            </button>
+            <div class="flex justify-center items-center space-x-8 mt-4">
                 <img 
                     src="assets/images/diagrama-ia.png" 
                     alt="Diagrama de Inteligencia Artificial para todos (IAparatodos)" 
@@ -349,6 +352,9 @@
             <a href="assets/pdfs/AVISO%20LEGAL%20Y%20PROPIEDAD%20INTELECTUAL.pdf" target="_blank" class="text-xs text-indigo-600 hover:underline">Aviso Legal y Propiedad Intelectual</a>
         </footer>
     </div>
+
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
