@@ -244,9 +244,9 @@
             </div>
 
             <!-- ===== QUIÉN SOY (Modal) ===== -->
-            <div id="modal-quiensoy" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);" onclick="if(event.target.id === 'modal-quiensoy') toggleModal('modal-quiensoy')">
-                <div class="glass about-card relative max-h-[90vh] overflow-y-auto" style="width: 100%; max-width: 700px;">
-                    <button onclick="toggleModal('modal-quiensoy')" class="absolute top-4 right-4 text-white hover:text-red-500" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+            <div id="modal-quiensoy" class="modal-overlay hidden" onclick="if(event.target.id === 'modal-quiensoy') toggleModal('modal-quiensoy')">
+                <div class="glass about-card modal-content relative max-h-[90vh] overflow-y-auto" style="width: 100%; max-width: 700px;">
+                    <button onclick="toggleModal('modal-quiensoy')" class="btn-close-modal">
                         <i class="fas fa-times"></i>
                     </button>
                     <h3 class="about-title">Acerca de Javier</h3>
