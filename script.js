@@ -24,7 +24,18 @@ function showPage(pageId) {
         // Trigger reflow to restart animation
         void target.offsetWidth;
         target.classList.add('fade-in');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Scroll adjustment for better UX
+        if (pageId !== 'page-inicio') {
+            const container = document.querySelector('.section-container');
+            if (container) {
+                // Scroll to the content, offset by navbar
+                const y = container.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     }
 }
 
