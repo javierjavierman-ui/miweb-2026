@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -88,6 +89,10 @@
                     <button onclick="showPage('page-itinerario')" class="resource-card card-learn">
                         <i class="fas fa-graduation-cap"></i>
                         <span>Itinerario Formativo</span>
+                    </button>
+                    <button onclick="showPage('page-eventos')" class="resource-card card-events admin-only" style="display: none;">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Eventos (Admin)</span>
                     </button>
                 </div>
 
@@ -274,6 +279,77 @@
                 </div>
             </div>
 
+            <!-- ===== PAGE: EVENTOS ===== -->
+            <div id="page-eventos" class="page-content content-panel hidden">
+                <div class="panel-header">
+                    <button onclick="showPage('page-inicio')" class="btn-back"><i class="fas fa-arrow-left"></i> Volver a Inicio</button>
+                    <h3 class="panel-title">📅 Gestión de Eventos</h3>
+                    <p class="panel-desc">Administra los eventos leyendo y escribiendo en Supabase.</p>
+                </div>
+                
+                <div class="panel-actions" style="margin-bottom: 1.5rem; text-align: right;">
+                    <button onclick="abrirModalEvento()" class="btn-primary" style="padding: 0.5rem 1rem; width: auto; display: inline-block;">
+                        <i class="fas fa-plus"></i> Nuevo Evento
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="eventos-table" id="tabla-eventos">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-eventos">
+                            <tr><td colspan="5" style="text-align: center;">Cargando eventos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== EVENTOS (Modal) ===== -->
+            <div id="modal-evento" class="modal-overlay hidden" onclick="if(event.target.id === 'modal-evento') toggleModal('modal-evento')">
+                <div class="glass form-card modal-content relative" style="width: 100%; max-width: 500px; padding: 2rem;">
+                    <button onclick="toggleModal('modal-evento')" class="btn-close-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3 class="about-title" id="modal-evento-title" style="margin-bottom: 1.5rem;">Nuevo Evento</h3>
+                    
+                    <form id="form-evento" onsubmit="guardarEvento(event)">
+                        <input type="hidden" id="evento-id">
+                        
+                        <div class="form-group">
+                            <label for="evento-titulo">Título</label>
+                            <input id="evento-titulo" type="text" required placeholder="Título del evento">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="evento-fecha">Fecha</label>
+                            <input id="evento-fecha" type="date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="evento-descripcion">Descripción</label>
+                            <textarea id="evento-descripcion" rows="4" required placeholder="Descripción del evento..." style="width: 100%; padding: .75rem 1rem; border: 1px solid var(--glass-border); border-radius: .75rem; background: rgba(255,255,255,0.05); color: #fff; font-size: .95rem; font-family: inherit; outline: none; transition: all .2s;"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="evento-estado">Estado</label>
+                            <select id="evento-estado" required style="width: 100%; padding: .75rem 1rem; border: 1px solid var(--glass-border); border-radius: .75rem; background: rgba(25,22,64,1); color: #fff; font-size: .95rem; font-family: inherit; outline: none;">
+                                <option value="borrador">Borrador</option>
+                                <option value="publicado">Publicado</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" style="margin-top: 1rem;">Guardar Evento</button>
+                    </form>
+                </div>
+            </div>
+
         </div><!-- /section-container -->
 
         <!-- FOOTER -->
@@ -287,5 +363,6 @@
     <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
     <script src="auth.js"></script>
+    <script src="eventos.js"></script>
 </body>
 </html>

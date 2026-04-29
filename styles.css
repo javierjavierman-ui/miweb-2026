@@ -318,3 +318,71 @@ body {
 /* ---- FOCUS / A11Y ---- */
 a:focus, button:focus { outline: 2px solid var(--primary-light); outline-offset: 2px; }
 button, a { transition: all .3s var(--ease); }
+
+/* =====================================================
+   | TABLAS - GESTIÓN DE EVENTOS
+   ===================================================== */
+.table-responsive {
+    overflow-x: auto;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.eventos-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-light);
+    text-align: left;
+}
+
+.eventos-table th,
+.eventos-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.eventos-table th {
+    background: rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.eventos-table tr:hover td {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.badge.borrador {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+.badge.publicado {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+    transition: var(--transition);
+}
+.action-btn.edit {
+    color: #4facfe;
+}
+.action-btn.delete {
+    color: #ef4444;
+}
+.action-btn:hover {
+    transform: scale(1.1);
+}
