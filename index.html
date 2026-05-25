@@ -14,344 +14,404 @@
     <!-- Enlace al archivo CSS externo -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="antialiased page-content-wrapper bg-gray-100">
+<body class="antialiased bg-white text-gray-800">
 
-    <!-- NEW GLOBAL HEADER -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md p-4 grid grid-cols-3 items-center">
-        <!-- Left side: Logo -->
-        <div class="flex justify-start">
-            <img src="assets/images/logo_iaparaseniors (1).svg" alt="IAparatodos Logo" class="h-10 md:h-12">
-        </div>
-        <!-- Center side: New Image -->
-        <div class="flex justify-center">
-            <img src="assets/images/red-neuronal2-solutionops.png" alt="Red Neuronal" class="h-10 md:h-12">
-        </div>
-        <!-- Right side: Neural network text -->
-        <div class="flex justify-end items-center">
-            <p class="text-gray-700 text-sm md:text-base font-semibold hidden md:block">La Inteligencia Artificial está en nuestras vidas</p>
-        </div>
-    </div>
-
-    <!-- FORMULARIO DE INICIO DE SESIÓN -->
-    <div id="login-form" class="mt-20 p-4 md:p-8 bg-white shadow-2xl rounded-xl border-t-8 border-indigo-500 w-full max-w-md mx-auto min-h-[50vh]">
-        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-6 text-center text-gray-800">Acceso al Panel</h1>
-        <form id="credentials-form" class="space-y-6">
-            <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
-                <div class="mt-1">
-                    <input id="username" name="username" type="text" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <!-- BARRA DE NAVEGACIÓN FIJA -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#inicio">
+                        <img src="assets/images/logo_iaparaseniors (1).svg" alt="IAparaseniors Logo" class="h-10 md:h-12">
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#inicio" class="text-gray-600 hover:text-blue-600 font-medium transition">Inicio</a>
+                    <a href="#eventos" class="text-gray-600 hover:text-blue-600 font-medium transition">Eventos</a>
+                    <a href="#contenidos" class="text-gray-600 hover:text-blue-600 font-medium transition">Contenidos</a>
+                    <a href="#novedades" class="text-gray-600 hover:text-blue-600 font-medium transition">Novedades</a>
+                    <a href="#trucos" class="text-gray-600 hover:text-blue-600 font-medium transition">Trucos</a>
+                    <a href="#itinerario" class="text-gray-600 hover:text-blue-600 font-medium transition">Itinerario</a>
+                    <a href="#quiensoy" class="text-gray-600 hover:text-blue-600 font-medium transition">Quién soy</a>
+                    <a href="#contacto" class="text-gray-600 hover:text-blue-600 font-medium transition">Contacto</a>
+                </div>
+                <!-- Top Right Próximo Evento (Replaced Neural Network) -->
+                <div class="hidden lg:flex justify-end items-center">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-bold border border-blue-100 shadow-sm">
+                        <i class="far fa-calendar-alt text-blue-500"></i> Próximo evento: 15 de Junio
+                    </span>
                 </div>
             </div>
+        </div>
+    </nav>
 
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                <div class="mt-1">
-                    <input id="password" name="password" type="password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                </div>
-            </div>
-
-            <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Entrar
-                </button>
-            </div>
-        </form>
-    </div>
 
     <!-- CONTENEDOR PRINCIPAL -->
-    <div id="main-content" style="display: none;" class="w-full min-h-[80vh] mt-20 p-4 md:p-8 bg-white shadow-2xl border-t-8 border-indigo-500 mx-auto">
+    <div id="main-content" class="w-full mx-auto">
 
-        <!-- ENCABEZADO PRINCIPAL -->
-        <header class="header-gradient p-8 rounded-t-xl text-center shadow-2xl mb-8">
-            <div class="flex justify-center items-center space-x-8">
-                <img 
-                    src="assets/images/diagrama-ia.png" 
-                    alt="Diagrama de Inteligencia Artificial para todos (IAparatodos)" 
-                    class="header-image w-1/2"
-                    loading="lazy"
-                >
-                <div class="w-1/2 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-200 bg-black">
-                    <video 
-                        class="w-full h-full"
-                        src="assets/videos/ia-facil.mp4"
-                        playsinline
-                        controls>
-                    </video>
-                </div>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mt-4">
-                IAparaseniors: La IA a tu alcance
-            </h1>
-            <p class="mt-2 text-lg font-light opacity-90">Tu almacén de conocimiento sobre Inteligencia Artificial</p>
-        </header>
-
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="space-y-12">
-
-            <!-- PÁGINA DE INICIO -->
-            <div id="page-inicio" class="page-content space-y-8 px-4">
-                <h3 class="text-3xl font-semibold text-center text-indigo-700">Explora Nuestros Recursos</h3>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- BOTÓN: Documentación -->
-                    <button onclick="showPage('page-documentacion')" class="btn-card hover:border-blue-400 hover:ring-blue-500/50">
-                        <i class="fas fa-file-alt text-4xl text-blue-600"></i> 
-                        <span class="text-base font-semibold">Documentación de Soporte</span>
-                    </button>
-
-                    <!-- BOTÓN: Novedades -->
-                    <button onclick="showPage('page-novedades')" class="btn-card hover:border-orange-400 hover:ring-orange-500/50">
-                        <i class="fas fa-star text-4xl text-orange-600"></i> 
-                        <span class="text-base font-semibold">Novedades</span>
-                    </button>
-
-                    <!-- BOTÓN: Videos -->
-                    <button onclick="showPage('page-videos')" class="btn-card hover:border-teal-400 hover:ring-teal-500/50">
-                        <i class="fas fa-video text-4xl text-teal-600"></i> 
-                        <span class="text-base font-semibold">Videos de Apoyo</span>
-                    </button>
-
-                    <!-- BOTÓN: Itinerario Formativo -->
-                    <button onclick="showPage('page-itinerario')" class="btn-card hover:border-purple-400 hover:ring-purple-500/50">
-                        <i class="fas fa-graduation-cap text-4xl text-purple-600"></i> 
-                        <span class="text-base font-semibold">Itinerario Formativo</span>
-                    </button>
-                </div>
-                
-                <!-- CONTACTO Y PROYECTO -->
-                <div class="mt-12 p-6 bg-gray-50 rounded-xl shadow-inner border-t-4 border-gray-200">
-                    <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                        <div class="text-sm text-center md:text-left">
-                            <p class="font-semibold mb-2 text-gray-700">Contacto y Proyecto</p>
-                            <p class="text-gray-600">
-                                <i class="fas fa-globe mr-2 text-indigo-400"></i> Dominio: iaparaseniors.org
-                            </p>
-                            <p class="text-gray-600">
-                                <i class="fas fa-envelope mr-2 text-indigo-400"></i> Email: javier@iaparaseniors.org
-                            </p>
-                        </div>
-                        <button onclick="toggleModal('modal-quiensoy')" class="py-2 px-5 bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-full text-sm transition duration-300 flex items-center justify-center space-x-2 shadow-xl">
-                            <i class="fas fa-user-circle"></i> 
-                            <span>¿Quién soy?</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PÁGINA: Documentación -->
-            <div id="page-documentacion" class="page-content hidden p-6 bg-purple-50 rounded-xl shadow-inner border-l-8 border-purple-500">
-                <button onclick="showPage('page-inicio')" class="text-purple-600 hover:text-purple-800 mb-4 text-sm font-medium transition duration-200">
-                    <i class="fas fa-arrow-left mr-2"></i> Volver a Inicio
-                </button>
-                <h3 class="text-3xl font-extrabold text-purple-700 mb-4">📁 Documentación de Soporte</h3>
-                <p class="text-gray-600 mb-6">Aquí encontrarás guías, PDFs, y resúmenes de los conceptos clave de la IA.</p>
-                <ul class="space-y-4">
-                    <li class="p-4 bg-white border border-purple-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> Charla Junio 2025
-                        </span>
-                        <a href="https://drive.google.com/file/d/1TvLYUlWaLkAnbw_QPNy1qwEHVn4UliIF/view?usp=share_link" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                    <li class="p-4 bg-white border border-purple-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> Charla Septiembre 2025
-                        </span>
-                        <a href="https://docs.google.com/presentation/d/1NKy0fuGh7gcLV3ySYSDzCnHQKn_0NyKR/edit?usp=share_link&ouid=102027009933778991773&rtpof=true&sd=true" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                    <li class="p-4 bg-white border border-purple-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> Charla Febrero 2026
-                        </span>
-                        <a href="assets/pdfs/NotebookLM_El_Dominio_del_Conocimiento_2026.pdf" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                    <li class="p-4 bg-white border border-purple-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> NotebookLM - Google
-                        </span>
-                        <a href="assets/pdfs/NotebookLM.pdf" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <!-- PORTADA / HERO (INICIO) -->
+        <section id="inicio" class="min-h-screen pt-24 pb-12 flex flex-col justify-center items-center header-gradient px-4 relative overflow-hidden">
+            <!-- Partículas visuales sutiles -->
+            <div class="absolute inset-0 opacity-10 bg-[url('assets/images/ai_technology_abstract.png')] bg-cover bg-center"></div>
             
-            <!-- PÁGINA: Novedades -->
-            <div id="page-novedades" class="page-content hidden p-6 bg-red-50 rounded-xl shadow-inner border-l-8 border-red-500">
-                <button onclick="showPage('page-inicio')" class="text-red-600 hover:text-red-800 mb-4 text-sm font-medium transition duration-200">
-                    <i class="fas fa-arrow-left mr-2"></i> Volver a Inicio
-                </button>
-                <h3 class="text-3xl font-extrabold text-red-700 mb-4">✨ Novedades y Actualizaciones</h3>
-                <p class="text-gray-600 mb-6">Contenido y anuncios recientes sobre este almacén de Información y el mundo de la Inteligencia Artificial.</p>
-                
-                <ul class="space-y-4 mb-6">
-                    <li class="p-4 bg-white border border-red-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> NotebookLM El Dominio del Conocimiento 2026
-                        </span>
-                        <a href="assets/pdfs/NotebookLM_El_Dominio_del_Conocimiento_2026.pdf" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                    <li class="p-4 bg-white border border-red-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-link mr-3 text-indigo-600 text-lg"></i> Como diseñar cursos a medida para aprender de todo
-                        </span>
-                        <a href="https://ai.studio/apps/drive/17Lf4AoawoFX6zRJxR5bBIKxpiOOmOVoT" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Ir al enlace
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="w-1/3 mx-auto my-6 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-200 bg-black">
-                    <video 
-                        class="w-full h-full"
-                        src="assets/videos/visita-a%20badajoz.mp4"
-                        playsinline
-                        controls>
-                    </video>
-                </div>
-                <p class="text-center text-sm text-gray-600 -mt-4 mb-6">
-                    <a href="https://www.perplexity.ai/comet" target="_blank" class="text-blue-600 hover:underline font-semibold">
-                        Utilizando Comet (el Navegador asistido de Perplexity), para diseñar rutas turísticas
-                    </a>
-                </p>
-            </div>
-
-            <!-- PÁGINA: Videos -->
-            <div id="page-videos" class="page-content hidden p-6 bg-teal-50 rounded-xl shadow-inner border-l-8 border-teal-500">
-                <button onclick="showPage('page-inicio')" class="text-teal-600 hover:text-teal-800 mb-4 text-sm font-medium transition duration-200">
-                    <i class="fas fa-arrow-left mr-2"></i> Volver a Inicio
-                </button>
-                <h3 class="text-3xl font-extrabold text-teal-700 mb-4">🎬 Videos de Apoyo</h3>
-                <p class="text-gray-600 mb-6">Una colección seleccionada de tutoriales y charlas que explican visualmente los temas más complejos de la IA.</p>
-                <ul class="space-y-4">
-                    <li class="p-4 bg-white border border-teal-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <div class="flex flex-col">
-                            <span class="text-gray-700 font-semibold flex items-center">
-                                <i class="fab fa-youtube mr-3 text-red-600 text-lg"></i> Novedades IA Enero 2026
-                            </span>
-                            <span class="text-xs text-gray-500 ml-8">Enero 2026: Una visión actualizada de las herramientas y tendencias más recientes en el mundo de la Inteligencia Artificial.</span>
-                        </div>
-                        <a href="https://youtu.be/sO3CgNvPBRI" target="_blank" class="text-sm py-1 px-3 bg-red-500 text-white rounded-full hover:bg-red-600 font-bold transition duration-200">Ver Video</a>
-                    </li>
-                    <li class="p-4 bg-white border border-teal-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fab fa-youtube mr-3 text-red-600 text-lg"></i> ¿Qué es la IA?
-                        </span>
-                        <a href="https://youtu.be/YIo7gI87WEM" target="_blank" class="text-sm py-1 px-3 bg-red-500 text-white rounded-full hover:bg-red-600 font-bold transition duration-200">Ver Video</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- PÁGINA: Itinerario Formativo -->
-            <div id="page-itinerario" class="page-content hidden p-6 bg-indigo-50 rounded-xl shadow-inner border-l-8 border-indigo-500">
-                <button onclick="showPage('page-inicio')" class="text-indigo-600 hover:text-indigo-800 mb-4 text-sm font-medium transition duration-200">
-                    <i class="fas fa-arrow-left mr-2"></i> Volver a Inicio
-                </button>
-                <h3 class="text-3xl font-extrabold text-indigo-700 mb-4">🎓 Itinerario Formativo</h3>
-                <p class="text-gray-600 mb-6">Si sigues este itinerario explorando estos recursos, tendrás una nueva visión acerca de los Modelos y herramientas más usuales de Inteligencia Artificial.</p>
-                <ul class="space-y-4">
-                    <li class="p-4 bg-white border border-indigo-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <div class="flex flex-col">
-                            <span class="text-gray-700 font-semibold flex items-center">
-                                <i class="fab fa-youtube mr-3 text-red-600 text-lg"></i> Novedades IA Enero 2026
-                            </span>
-                            <span class="text-xs text-gray-500 ml-8">Enero 2026: Una visión actualizada de las herramientas y tendencias más recientes en el mundo de la Inteligencia Artificial.</span>
-                        </div>
-                        <a href="https://youtu.be/sO3CgNvPBRI" target="_blank" class="text-sm py-1 px-3 bg-red-500 text-white rounded-full hover:bg-red-600 font-bold transition duration-200">Ver Video</a>
-                    </li>
-                    <li class="p-4 bg-white border border-indigo-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> IA Actualizada Junio 2025
-                        </span>
-                        <a href="assets/pdfs/IA Actualizada 020625 SS.pdf" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                    <li class="p-4 bg-white border border-indigo-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> De Caos a Claridad
-                        </span>
-                        <a href="assets/pdfs/Caos_a_Claridad.pdf" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                    <li class="p-4 bg-white border border-indigo-200 rounded-lg flex items-center justify-between shadow-md hover:shadow-lg transition">
-                        <span class="text-gray-700 font-semibold flex items-center">
-                            <i class="fas fa-file-pdf mr-3 text-indigo-600 text-lg"></i> Novedades y Herramientas (Sin Videos)
-                        </span>
-                        <a href="assets/pdfs/Novedades-y-Herramientas-de-IA-para-Seniors-sin-videos.pdf" target="_blank" class="text-sm py-1 px-3 bg-teal-500 text-white rounded-full hover:bg-teal-600 font-bold transition duration-200">
-                            Descargar
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- MODAL: Quién Soy -->
-            <div id="modal-quiensoy" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4" onclick="if(event.target.id === 'modal-quiensoy') toggleModal('modal-quiensoy')">
-                <div class="bg-white p-8 rounded-xl shadow-2xl max-w-xl w-full transform transition-all duration-300 scale-100 overflow-y-auto max-h-[90vh]">
-                    <h4 class="text-3xl font-extrabold text-indigo-700 mb-4 border-b pb-2">Acerca de Javier (Quién Soy)</h4>
-                    
-                    <p class="text-gray-700 mb-4 leading-relaxed">
-                        Entusiasta en constante formación en el ámbito de la Inteligencia Artificial, enfocado en cómo estas tecnologías pueden aplicarse de manera práctica y ética. En el proyecto **"IAparatodos"** intento combinar la capacidad de sintetizar contenidos, con la de explicar conceptos complejos, para que éstos sean accesibles a usuarios interesados en aprender y usar la Inteligencia Artificial.
-                    </p>
-
-                    <div class="w-1/3 mx-auto my-6 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-200 bg-black">
-                        <video 
-                            class="w-full h-full"
-                            src="assets/videos/avatar-inicio.mp4"
-                            playsinline
-                            controls>
-                        </video>
+            <div class="relative z-10 max-w-5xl mx-auto text-center">
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-8 mb-8">
+                    <!-- NUEVA IMAGEN GENERADA POR IA -->
+                    <img src="assets/images/ai_seniors_learning.png" alt="Seniors aprendiendo IA" class="w-full md:w-1/2 rounded-xl shadow-2xl border-4 border-white/20 object-cover aspect-[4/3]">
+                    <div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-white/20 bg-black aspect-[4/3]">
+                        <video class="w-full h-full object-cover" src="assets/videos/ia-facil.mp4" playsinline controls></video>
                     </div>
-                    
-                    <h5 class="text-xl font-semibold text-purple-600 mt-6 mb-3">Cursos y Formación Destacada</h5>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2 pl-4">
-                        <li>
-                            Curso de Introducción a la IA (Big School)
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6">
+                    La Inteligencia Artificial a tu alcance
+                </h1>
+                
+                <!-- Frase destacada pedida por el usuario -->
+                <p class="mt-4 text-xl md:text-3xl font-light text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    Acompañamos a nuestros amigos seniors a descubrir, entender y aprovechar la Inteligencia Artificial en su día a día, de forma sencilla y práctica.
+                </p>
+                
+                <div class="mt-10 flex justify-center gap-4 flex-wrap">
+                    <a href="#contenidos" class="px-8 py-4 bg-white text-blue-700 font-bold rounded-full shadow-lg hover:bg-blue-50 transition transform hover:-translate-y-1">
+                        Ver Recursos
+                    </a>
+                    <a href="#itinerario" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-full border border-blue-400 shadow-lg hover:bg-blue-700 transition transform hover:-translate-y-1">
+                        Empezar Itinerario
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENTOS -->
+        <section id="eventos" class="bg-gray-50 py-16 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-blue-800 inline-flex items-center gap-3">
+                        <i class="far fa-calendar-alt"></i> Próximos Eventos
+                    </h2>
+                    <p class="text-gray-600 mt-3">Únete a nuestras próximas sesiones en directo y talleres presenciales.</p>
+                </div>
+                
+                <div id="eventos-container" class="grid md:grid-cols-2 gap-8">
+                    <!-- Placeholder de Evento 1 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 card-hover flex gap-4">
+                        <div class="bg-blue-100 text-blue-800 rounded-xl p-4 flex flex-col items-center justify-center min-w-[80px]">
+                            <span class="text-sm font-bold uppercase">JUN</span>
+                            <span class="text-2xl font-black">15</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Taller Práctico de IA</h3>
+                            <p class="text-gray-600 text-sm mb-3">Sesión práctica sobre cómo usar la Inteligencia Artificial en el día a día.</p>
+                            <span class="inline-block px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 text-xs font-bold rounded-full">Próximo</span>
+                        </div>
+                    </div>
+                    <!-- Placeholder de Evento 2 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 card-hover flex gap-4 opacity-70">
+                        <div class="bg-gray-100 text-gray-500 rounded-xl p-4 flex flex-col items-center justify-center min-w-[80px]">
+                            <i class="fas fa-video text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Sesión Online: Preguntas y Respuestas</h3>
+                            <p class="text-gray-500 text-sm mb-3">Resolveremos dudas sobre el uso de la IA en tareas cotidianas.</p>
+                            <span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">Próximamente</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">
+                        <i class="fas fa-arrow-up mr-2"></i> Volver a Inicio
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENIDOS (Fusión de Documentación y Videos) -->
+        <section id="contenidos" class="bg-white py-16 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-blue-800 inline-flex items-center gap-3">
+                        <i class="fas fa-book-open"></i> Contenidos y Recursos
+                    </h2>
+                    <p class="text-gray-600 mt-3">Documentos PDF y videos tutoriales de apoyo.</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Columna Documentación -->
+                    <div class="bg-blue-50 p-6 md:p-8 rounded-2xl border border-blue-100 shadow-sm">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-6 flex items-center gap-2">
+                            <i class="fas fa-file-pdf"></i> Guías y Presentaciones
+                        </h3>
+                        <ul class="space-y-4" id="documentos-container"></ul>
+                    </div>
+
+                    <!-- Columna Videos -->
+                    <div class="bg-gray-50 p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <i class="fas fa-play-circle text-red-500"></i> Videos Tutoriales
+                        </h3>
+                        <ul class="space-y-4" id="videos-container"></ul>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">
+                        <i class="fas fa-arrow-up mr-2"></i> Volver a Inicio
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVEDADES -->
+        <section id="novedades" class="bg-gray-50 py-16 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-blue-800 inline-flex items-center gap-3">
+                        <i class="fas fa-star text-yellow-400"></i> Novedades y Actualizaciones
+                    </h2>
+                    <p class="text-gray-600 mt-3">Lo último en este almacén de Información y el mundo de la Inteligencia Artificial.</p>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-md border border-gray-100">
+                    <ul class="space-y-4 mb-8">
+                        <li class="p-4 bg-gray-50 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <span class="font-medium text-gray-800 flex items-center gap-3">
+                                <i class="fas fa-file-pdf text-blue-600 text-xl"></i> 
+                                NotebookLM El Dominio del Conocimiento 2026
+                            </span>
+                            <a href="assets/pdfs/NotebookLM_El_Dominio_del_Conocimiento_2026.pdf" target="_blank" class="px-5 py-2 bg-blue-600 text-white text-sm font-bold rounded-full hover:bg-blue-700 transition">Descargar</a>
                         </li>
-                        <li>
-                            Iniciación al Desarrollo con IA (Big School) 
-                        </li>
-                        <li>
-                            Iniciación a los flujos de trabajo con Inteligencia Artificial (Big School)
-                        </li>
-                        <li>
-                            Inteligencia artificial (IA) en el Audiovisual (RTVE Haz)
-                        </li>
-                        <li>
-                            Curso Experto en Gemini (Academia Artificial)
-                        </li>
-                        <li>
-                            Curso de IA 2026 (Big School)
+                        <li class="p-4 bg-gray-50 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <span class="font-medium text-gray-800 flex items-center gap-3">
+                                <i class="fas fa-link text-blue-600 text-xl"></i> 
+                                Como diseñar cursos a medida para aprender de todo
+                            </span>
+                            <a href="https://ai.studio/apps/drive/17Lf4AoawoFX6zRJxR5bBIKxpiOOmOVoT" target="_blank" class="px-5 py-2 bg-blue-600 text-white text-sm font-bold rounded-full hover:bg-blue-700 transition">Ir al enlace</a>
                         </li>
                     </ul>
 
-                    <h5 class="text-xl font-semibold text-purple-600 mt-6 mb-3">Currículum</h5>
-                    <a href="cv/cv-javier-rodriguez.html" target="_blank" class="text-blue-600 hover:underline font-semibold">Curriculum Vitae</a>
-
-                    <button onclick="toggleModal('modal-quiensoy')" class="mt-8 w-full py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition duration-300 shadow-md">
-                        Cerrar
-                    </button>
+                    <div class="mt-8 flex flex-col items-center">
+                        <div class="w-full md:w-2/3 lg:w-1/2 rounded-xl overflow-hidden shadow-xl border-4 border-gray-200 bg-black aspect-video mb-4">
+                            <video class="w-full h-full object-cover" src="assets/videos/visita-a%20badajoz.mp4" playsinline controls></video>
+                        </div>
+                        <a href="https://www.perplexity.ai/comet" target="_blank" class="text-blue-600 hover:text-blue-800 font-medium text-sm text-center">
+                            Utilizando Comet (el Navegador asistido de Perplexity), para diseñar rutas turísticas <i class="fas fa-external-link-alt ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">
+                        <i class="fas fa-arrow-up mr-2"></i> Volver a Inicio
+                    </a>
                 </div>
             </div>
-        </main>
+        </section>
 
-        <!-- PIÉ DE PÁGINA (Integrado en el contenedor principal) -->
-        <footer class="text-center p-4 mt-12 border-t border-gray-100">
-            <p class="text-xs text-gray-500 mb-2">&copy; 2025 IAparatodos - Todos los derechos reservados.</p>
-            <a href="assets/pdfs/AVISO%20LEGAL%20Y%20PROPIEDAD%20INTELECTUAL.pdf" target="_blank" class="text-xs text-indigo-600 hover:underline">Aviso Legal y Propiedad Intelectual</a>
-        </footer>
+        <!-- TRUCOS DE USO DE MODELOS DE IA (NEW SECTION) -->
+        <section id="trucos" class="bg-white py-16 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-blue-800 inline-flex items-center gap-3">
+                        <i class="fas fa-lightbulb text-yellow-500"></i> Trucos de uso de Modelos de IA
+                    </h2>
+                    <p class="text-gray-600 mt-3">Consejos prácticos para sacar el máximo partido a la Inteligencia Artificial.</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-sm text-center">
+                    <img src="assets/images/ai_technology_abstract.png" alt="Tecnología abstracta" class="w-48 h-48 object-cover rounded-full mx-auto mb-6 shadow-md border-4 border-white">
+                    <h3 class="text-xl font-bold text-gray-700 mb-2">Sección en construcción</h3>
+                    <p class="text-gray-500">Próximamente iremos añadiendo los mejores trucos y técnicas.</p>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">
+                        <i class="fas fa-arrow-up mr-2"></i> Volver a Inicio
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ITINERARIO FORMATIVO -->
+        <section id="itinerario" class="bg-gray-50 py-16 px-4 border-t border-gray-100">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-blue-800 inline-flex items-center gap-3">
+                        <i class="fas fa-graduation-cap"></i> Itinerario Formativo
+                    </h2>
+                    <p class="text-gray-600 mt-3">Sigue este recorrido paso a paso para dominar las bases de la IA.</p>
+                </div>
+
+                <div class="relative border-l-4 border-blue-200 pl-6 md:pl-8 ml-4 md:ml-0 space-y-10">
+                    <!-- Paso 1 -->
+                    <div class="relative">
+                        <div class="absolute -left-[35px] md:-left-[39px] bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-4 border-white shadow-sm">1</div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm card-hover">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Novedades IA Enero 2026</h4>
+                            <p class="text-gray-600 text-sm mb-4">Empieza con una visión actualizada del panorama actual.</p>
+                            <a href="https://youtu.be/sO3CgNvPBRI" target="_blank" class="text-blue-600 font-semibold hover:underline inline-flex items-center gap-2">
+                                <i class="fab fa-youtube text-red-500"></i> Ver en YouTube
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Paso 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-[35px] md:-left-[39px] bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-4 border-white shadow-sm">2</div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm card-hover">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">IA Actualizada Junio 2025</h4>
+                            <p class="text-gray-600 text-sm mb-4">Profundiza en la evolución de las herramientas.</p>
+                            <a href="assets/pdfs/IA Actualizada 020625 SS.pdf" target="_blank" class="text-blue-600 font-semibold hover:underline inline-flex items-center gap-2">
+                                <i class="fas fa-file-pdf"></i> Leer Documento
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Paso 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-[35px] md:-left-[39px] bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-4 border-white shadow-sm">3</div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm card-hover">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">De Caos a Claridad</h4>
+                            <p class="text-gray-600 text-sm mb-4">Aprende a estructurar tus prompts y consultas.</p>
+                            <a href="assets/pdfs/Caos_a_Claridad.pdf" target="_blank" class="text-blue-600 font-semibold hover:underline inline-flex items-center gap-2">
+                                <i class="fas fa-file-pdf"></i> Leer Documento
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Paso 4 -->
+                    <div class="relative">
+                        <div class="absolute -left-[35px] md:-left-[39px] bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-4 border-white shadow-sm">4</div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm card-hover">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Novedades y Herramientas</h4>
+                            <p class="text-gray-600 text-sm mb-4">Guía completa en formato texto para repasar todo.</p>
+                            <a href="assets/pdfs/Novedades-y-Herramientas-de-IA-para-Seniors-sin-videos.pdf" target="_blank" class="text-blue-600 font-semibold hover:underline inline-flex items-center gap-2">
+                                <i class="fas fa-file-pdf"></i> Leer Documento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">
+                        <i class="fas fa-arrow-up mr-2"></i> Volver a Inicio
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- REDES SOCIALES E INSTAGRAM -->
+        <section id="redes" class="bg-blue-50 py-16 px-4 border-y border-blue-100">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-blue-800 mb-6">Próximamente en Redes Sociales</h2>
+                
+                <div class="flex justify-center mb-10">
+                    <div class="flex flex-col items-center group cursor-default">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md text-gray-800 text-3xl">
+                            <!-- X (Twitter) Icon -->
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </div>
+                        <span class="mt-3 font-bold text-gray-800">@iaparaseniors</span>
+                        <span class="text-sm text-gray-500 font-medium">Muy pronto</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIÉN SOY -->
+        <section id="quiensoy" class="bg-white py-16 px-4">
+            <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+                <div class="w-full md:w-1/3">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-100 bg-black aspect-[3/4]">
+                        <video class="w-full h-full object-cover" src="assets/videos/avatar-inicio.mp4" playsinline controls></video>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <h2 class="text-3xl font-bold text-blue-800 mb-6">Acerca de Javier</h2>
+                    <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                        Entusiasta en constante formación en el ámbito de la Inteligencia Artificial, enfocado en cómo estas tecnologías pueden aplicarse de manera práctica y ética. En el proyecto <strong>"IAparaseniors"</strong> intento combinar la capacidad de sintetizar contenidos, con la de explicar conceptos complejos, para que éstos sean accesibles a usuarios interesados en aprender y usar la IA.
+                    </p>
+                    
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">Cursos y Formación Destacada</h3>
+                    <div class="grid sm:grid-cols-2 gap-3 mb-8">
+                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Intro a la IA (Big School)</div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Desarrollo con IA (Big School)</div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Flujos de trabajo con IA (Big School)</div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> IA en el Audiovisual (RTVE Haz)</div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Experto en Gemini (Academia Artificial)</div>
+                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Curso de IA 2026 (Big School)</div>
+                    </div>
+                    <!-- Enlace al curriculum eliminado según solicitud -->
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">
+                    <i class="fas fa-arrow-up mr-2"></i> Volver a Inicio
+                </a>
+            </div>
+        </section>
+
+        <!-- CONTACTO & PIE DE PÁGINA -->
+        <section id="contacto" class="bg-gray-900 text-white pt-16 pb-8 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-12 mb-12">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4">¿Hablamos?</h2>
+                        <p class="text-gray-400 mb-8">Si tienes alguna duda, sugerencia o quieres contactar conmigo, escríbeme directamente rellenando este formulario. Estaré encantado de leerte.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 text-gray-300">
+                                <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <span>javier@iaparaseniors.org</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-gray-300">
+                                <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <span>iaparaseniors.org</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 p-6 md:p-8 rounded-2xl">
+
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">Nombre</label>
+                                <input type="text" name="Nombre" required class="w-full bg-gray-700 border-none rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">Email</label>
+                                <input type="email" name="Email" required class="w-full bg-gray-700 border-none rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">Asunto</label>
+                                <input type="text" name="Asunto" required class="w-full bg-gray-700 border-none rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500" value="Sugerencia / Contacto Web">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">Mensaje o Sugerencia</label>
+                                <textarea name="Mensaje" rows="4" required class="w-full bg-gray-700 border-none rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                            <button type="submit" id="contact-submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition shadow-lg">
+                                Enviar Mensaje
+                            </button>
+                            <p id="contact-msg" class="text-sm font-bold mt-2" style="display:none;"></p>
+
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8 text-center flex flex-col items-center">
+                    <p class="text-sm text-gray-500 mb-2">&copy; 2026 IAparaseniors - La divulgación para seniors de la Inteligencia Artificial.</p>
+                    <a href="assets/pdfs/AVISO%20LEGAL%20Y%20PROPIEDAD%20INTELECTUAL.pdf" target="_blank" class="text-xs text-blue-400 hover:text-blue-300 transition">Aviso Legal y Propiedad Intelectual</a>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <!-- Enlace al archivo JavaScript externo -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <script src="script.js"></script>
-    <script src="auth.js"></script>
+
 </body>
 </html>

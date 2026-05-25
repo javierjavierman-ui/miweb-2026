@@ -1,116 +1,138 @@
 /* =====================================================
-   | JAVASCRIPT - IAparatodos                          |
-   | Lógica de navegación, modales y formulario       |
+   | JAVASCRIPT - IAparaseniors                          |
+   | Landing Page Scripts con Supabase                   |
    ===================================================== */
 
-// Email de destino (para mensajes de confirmación)
-const DESTINATION_EMAIL = "javier@iaparatodos.com";
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    // Cargar Eventos Dinámicos
+    async function loadEvents() {
+        const container = document.getElementById('eventos-container');
+        if (!container) return;
 
-/**
- * Muestra una página específica y oculta las demás
- * Implementa navegación tipo SPA (Single Page Application)
- * @param {string} pageId - ID del elemento que se desea mostrar
- */
-function showPage(pageId) {
-    // Selecciona todas las páginas (secciones de contenido)
-    const pages = document.querySelectorAll('.page-content');
-    
-    // Oculta todas las páginas
-    pages.forEach(page => {
-        page.classList.add('hidden');
-    });
-    
-    // Muestra la página solicitada
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
-        // Scroll suave hacia el inicio de la página
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
+        const { data, error } = await supabaseClient
+            .from('events')
+            .select('*')
+            .eq('published', true)
+            .order('event_date', { ascending: true })
+            .limit(4);
 
-/**
- * Alterna la visibilidad de un modal
- * @param {string} modalId - ID del modal a mostrar/ocultar
- */
-function toggleModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.toggle('hidden');
-
-    // Controla el scroll del body cuando el modal se abre o cierra
-    if (!modal.classList.contains('hidden')) {
-        // Modal está abierto: deshabilita el scroll del body
-        document.body.style.overflow = 'hidden';
-    } else {
-        // Modal está cerrado: habilita el scroll del body
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Si se abre el modal de contacto, resetea el formulario
-    if (modalId === 'modal-contacto' && !modal.classList.contains('hidden')) {
-        document.getElementById('contact-form').reset();
-        document.getElementById('form-message').classList.add('hidden');
-    }
-}
-
-/**
- * Maneja el envío del formulario de contacto
- * Nota: Requiere un endpoint backend (/api/send-email) para funcionar completamente
- * @param {Event} event - Evento del formulario
- */
-async function handleFormSubmit(event) {
-    event.preventDefault();
-    
-    const formMessage = document.getElementById('form-message');
-    const name = document.getElementById('contact-name').value;
-    const email = document.getElementById('contact-email').value;
-    const message = document.getElementById('contact-message').value;
-    
-    // Mostrar mensaje de "Enviando"
-    formMessage.textContent = `Intentando enviar mensaje a ${DESTINATION_EMAIL}...`;
-    formMessage.className = 'text-center font-bold p-3 rounded-lg bg-blue-100 text-blue-700 block';
-    
-    // Preparar datos del formulario
-    const formData = { name, email, message };
-    
-    try {
-        // Llamada al API (requiere configuración de backend)
-        const response = await fetch('/api/send-email', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
-        
-        if (response.ok) {
-            // Éxito
-            const result = await response.json();
-            formMessage.textContent = `¡Mensaje enviado, ${name}! Tu consulta ha sido entregada a ${DESTINATION_EMAIL}.`;
-            formMessage.className = 'text-center font-bold p-3 rounded-lg bg-green-100 text-green-700 block';
-            document.getElementById('contact-form').reset();
-        } else {
-            // Error del servidor
-            formMessage.textContent = `⚠️ Error de Servicio (código ${response.status}). El formulario requiere un servicio backend. Contacta a ${DESTINATION_EMAIL} directamente.`;
-            formMessage.className = 'text-center font-bold p-3 rounded-lg bg-red-100 text-red-700 block';
+        if (error) {
+            console.error("Error al cargar eventos:", error);
+            return;
         }
-        
-    } catch (error) {
-        // Error de red
-        console.error('Error de red:', error);
-        formMessage.textContent = `❌ Error de Conexión. Por favor, usa el email: ${DESTINATION_EMAIL}`;
-        formMessage.className = 'text-center font-bold p-3 rounded-lg bg-red-100 text-red-700 block';
-    }
-}
 
-/**
- * Inicialización al cargar la página
- * Asegura que solo se muestre la página de inicio
- */
-document.addEventListener('DOMContentLoaded', () => {
-    showPage('page-inicio');
-    const importantNoticeBtn = document.getElementById('important-notice-btn');
-    importantNoticeBtn.addEventListener('click', () => {
-        alert('En breve cambiará la dirección de esta página web, que pasará a ser iaparaseniors.org');
-    });
+        if (data.length === 0) {
+            container.innerHTML = '<p class="col-span-full text-center text-gray-500">Próximamente publicaremos nuevos eventos.</p>';
+            return;
+        }
+
+        container.innerHTML = data.map(ev => {
+            const date = new Date(ev.event_date);
+            const month = date.toLocaleString('es-ES', { month: 'short' }).toUpperCase();
+            const day = date.getDate();
+            const statusClass = ev.registration_open ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-600';
+            const statusText = ev.registration_open ? 'Próximo' : 'Próximamente';
+
+            return `
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 card-hover flex gap-4 ${ev.registration_open ? '' : 'opacity-70'}">
+                <div class="${ev.registration_open ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-500'} rounded-xl p-4 flex flex-col items-center justify-center min-w-[80px]">
+                    <span class="text-sm font-bold uppercase">${month}</span>
+                    <span class="text-2xl font-black">${day}</span>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${ev.title}</h3>
+                    <p class="text-gray-600 text-sm mb-3">${ev.description || ''}</p>
+                    <span class="inline-block px-3 py-1 border border-gray-100 text-xs font-bold rounded-full ${statusClass}">${statusText}</span>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // Cargar Contenidos Dinámicos
+    async function loadContents() {
+        const docsContainer = document.getElementById('documentos-container');
+        const videosContainer = document.getElementById('videos-container');
+        if (!docsContainer || !videosContainer) return;
+
+        const { data, error } = await supabaseClient
+            .from('contents')
+            .select('*')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error("Error al cargar contenidos:", error);
+            return;
+        }
+
+        const documentos = data.filter(c => c.content_type.toLowerCase() === 'documento' || c.content_type.toLowerCase() === 'presentación' || c.content_type.toLowerCase() === 'conferencia');
+        const videos = data.filter(c => c.content_type.toLowerCase() === 'vídeo' || c.content_type.toLowerCase() === 'video');
+
+        if (documentos.length > 0) {
+            docsContainer.innerHTML = documentos.map(doc => `
+                <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center card-hover">
+                    <span class="font-medium text-gray-700">${doc.title}</span>
+                    <a href="${doc.file_url || '#'}" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition">Ver</a>
+                </li>
+            `).join('');
+        }
+
+        if (videos.length > 0) {
+            videosContainer.innerHTML = videos.map(vid => `
+                <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 card-hover flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-gray-800">${vid.title}</h4>
+                        <p class="text-xs text-gray-500 mt-1">${vid.summary || ''}</p>
+                    </div>
+                    <a href="${vid.youtube_url || '#'}" target="_blank" class="shrink-0 px-4 py-2 bg-red-600 text-white text-sm font-bold rounded-lg hover:bg-red-700 transition flex items-center gap-2">
+                        <i class="fab fa-youtube"></i> Ver Video
+                    </a>
+                </li>
+            `).join('');
+        }
+    }
+
+    // Manejar Formulario de Contacto
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('contact-submit');
+            const msg = document.getElementById('contact-msg');
+            
+            const name = contactForm.elements['Nombre'].value;
+            const subject = contactForm.elements['Asunto'].value;
+            const message = contactForm.elements['Mensaje'].value;
+            // Solicitar email al usuario, lo hemos quitado del form original mailto, vamos a buscar si hay un campo de email
+            // Como el HTML original no tenía campo de email, usamos un correo anónimo temporal si no hay, o avisamos.
+            let email = contactForm.elements['Email'] ? contactForm.elements['Email'].value : 'anonimo@web.com';
+            
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
+            msg.style.display = 'none';
+
+            const { error } = await supabaseClient.from('contact_messages').insert([
+                { name, email, subject, message }
+            ]);
+
+            btn.disabled = false;
+            btn.textContent = 'Enviar Mensaje';
+            msg.style.display = 'block';
+
+            if (error) {
+                msg.style.color = '#ef4444';
+                msg.textContent = 'Hubo un error al enviar el mensaje. Por favor, inténtalo más tarde.';
+                console.error(error);
+            } else {
+                msg.style.color = '#22c55e';
+                msg.textContent = '¡Mensaje enviado con éxito! Te responderemos pronto.';
+                contactForm.reset();
+            }
+        });
+    }
+
+    // Inicializar cargas
+    loadEvents();
+    loadContents();
 });

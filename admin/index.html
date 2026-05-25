@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Administración — IAparaseniors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Cinzel:wght@400;600&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- LOGIN WRAPPER -->
+<div id="login-wrapper" class="admin-login-wrapper">
+  <div class="admin-login-box">
+    <div class="admin-logo" style="margin-bottom: 24px; text-align: center;">IA<span style="color:#2563eb">paraseniors</span><small>Admin</small></div>
+    <form id="admin-login-form">
+      <input type="email" id="login-email" class="admin-form-input" placeholder="Correo electrónico" required style="width:100%; margin-bottom:12px; padding:10px;">
+      <input type="password" id="login-password" class="admin-form-input" placeholder="Contraseña" required style="width:100%; margin-bottom:16px; padding:10px;">
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%">Acceder</button>
+      <div style="text-align: center; margin-top: 12px;">
+        <a href="#" id="link-forgot-password" style="font-size: 0.8rem; color: var(--ink-light); text-decoration: none;">¿Olvidaste tu contraseña?</a>
+      </div>
+      <div id="login-error" style="color:red; font-size:0.8rem; margin-top:10px; display:none;">Error de inicio de sesión.</div>
+    </form>
+  </div>
+</div>
+
+<!-- RECOVERY WRAPPER -->
+<div id="recovery-wrapper" class="admin-login-wrapper" style="display:none;">
+  <div class="admin-login-box">
+    <div class="admin-logo" style="margin-bottom: 24px; text-align: center;">Recuperar <span>Clave</span></div>
+    <p style="font-size: 0.85rem; color: var(--ink-light); margin-bottom: 16px; text-align: center;">Introduce tu correo electrónico para recibir un enlace de recuperación.</p>
+    <form id="admin-recovery-form">
+      <input type="email" id="recovery-email" class="admin-form-input" placeholder="Correo electrónico" required style="width:100%; margin-bottom:16px; padding:10px;">
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%">Enviar enlace</button>
+      <div style="text-align: center; margin-top: 12px;">
+        <a href="#" id="link-back-login" style="font-size: 0.8rem; color: var(--ink-light); text-decoration: none;">← Volver al login</a>
+      </div>
+      <div id="recovery-msg" style="font-size:0.8rem; margin-top:10px; display:none; text-align: center;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- UPDATE PASSWORD WRAPPER -->
+<div id="update-password-wrapper" class="admin-login-wrapper" style="display:none;">
+  <div class="admin-login-box">
+    <div class="admin-logo" style="margin-bottom: 24px; text-align: center;">Nueva <span>Contraseña</span></div>
+    <p style="font-size: 0.85rem; color: var(--ink-light); margin-bottom: 16px; text-align: center;">Introduce tu nueva contraseña.</p>
+    <form id="admin-update-password-form">
+      <input type="password" id="update-password-input" class="admin-form-input" placeholder="Nueva contraseña" required style="width:100%; margin-bottom:16px; padding:10px;">
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%">Actualizar contraseña</button>
+      <div id="update-msg" style="font-size:0.8rem; margin-top:10px; display:none; text-align: center;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- LAYOUT PRINCIPAL -->
+<div id="dashboard-wrapper" class="admin-layout" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">IA<span style="color:#2563eb">paraseniors</span><small>Admin</small></div>
+    <nav class="admin-nav">
+      <a href="#" class="admin-nav-link active" data-panel="eventos">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Eventos
+      </a>
+      <a href="#" class="admin-nav-link" data-panel="contenidos">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Contenidos
+      </a>
+      <a href="#" class="admin-nav-link" data-panel="autores">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Autores
+      </a>
+      <a href="#" class="admin-nav-link" data-panel="simpatizantes">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Simpatizantes
+      </a>
+      <a href="#" class="admin-nav-link" data-panel="mensajes">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Mensajes
+      </a>
+      <a href="#" class="admin-nav-link" data-panel="marketing">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.92 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Marketing
+      </a>
+    </nav>
+    <div class="admin-sidebar-footer" style="display:flex; flex-direction:column; gap:8px;">
+      <a href="https://supabase.com/dashboard/project/fzftntxrkagnvchhwehn/editor" target="_blank" class="admin-nav-link" style="font-size:0.75rem; font-weight: 600; color: #10b981; margin-bottom:10px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        Base de Datos (Supabase)
+      </a>
+      <a href="../../index.html" class="admin-nav-link" style="opacity:0.6;font-size:0.7rem">← Ver web pública</a>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="admin-main">
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <h1 class="admin-topbar-title" id="panel-title">Gestión de Eventos</h1>
+      <div class="admin-topbar-actions">
+        <span class="admin-user">Admin</span>
+        <a href="#" class="admin-btn admin-btn-outline">Cerrar sesión</a>
+      </div>
+    </div>
+
+    <!-- PANEL: EVENTOS -->
+    <div class="admin-panel active" id="panel-eventos">
+      <div class="admin-panel-header">
+        <h2>Eventos</h2>
+        <button id="btn-nuevo-evento" class="admin-btn admin-btn-primary">+ Nuevo evento</button>
+      </div>
+      <div class="admin-supabase-note">
+        📌 En producción, esta tabla se cargará desde la tabla <code>eventos</code> de Supabase.
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Fecha</th><th>Título</th><th>Tipo</th><th>Lugar</th><th>Estado</th><th>Inscritos</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>20 Jun 2026</td><td>Visita al Monasterio del Escorial</td><td>Visita Cultural</td><td>El Escorial, Madrid</td><td><span class="admin-badge green">Abierto</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td>15 Jul 2026</td><td>Conferencia: La España Olvidada</td><td>Conferencia</td><td>Madrid</td><td><span class="admin-badge green">Abierto</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td>10 Sep 2026</td><td>Ciclo Indígenas — Perú y el Caribe</td><td>Charla Online</td><td>Zoom</td><td><span class="admin-badge yellow">Próximo</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td>12 Oct 2026</td><td>Barómetro de la Hispanidad 2026</td><td>Presentación</td><td>Madrid</td><td><span class="admin-badge yellow">Próximo</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PANEL: CONTENIDOS -->
+    <div class="admin-panel" id="panel-contenidos">
+      <div class="admin-panel-header">
+        <h2>Contenidos</h2>
+        <button id="btn-nuevo-contenido" class="admin-btn admin-btn-primary">+ Nuevo contenido</button>
+        <button id="btn-carga-masiva" class="admin-btn admin-btn-outline">📂 Carga Masiva</button>
+      </div>
+      <div class="admin-supabase-note">
+        📌 En producción, esta tabla se cargará desde la tabla <code>contenidos</code> de Supabase.
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Fecha</th><th>Título</th><th>Tipo</th><th>Autor</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PANEL: AUTORES -->
+    <div class="admin-panel" id="panel-autores">
+      <div class="admin-panel-header">
+        <h2>Autores</h2>
+        <button id="btn-nuevo-autor" class="admin-btn admin-btn-primary">+ Nuevo autor</button>
+      </div>
+      <div class="admin-supabase-note">
+        📌 En producción, esta tabla se cargará desde la tabla <code>autores</code> de Supabase.
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Nombre</th><th>Cargo</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>César Pérez Guevara</td><td>Historiador</td><td>Derecho colonial</td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td>José J. Laorden</td><td>Investigador</td><td>Conquista y pueblos indígenas</td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td>Francisco Massó</td><td>Analista político</td><td>Revisionismo histórico</td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PANEL: SIMPATIZANTES -->
+    <div class="admin-panel" id="panel-simpatizantes">
+      <div class="admin-panel-header">
+        <h2>Simpatizantes</h2>
+        <div style="display:flex; gap:10px;">
+          <button id="btn-add-simpatizante" class="admin-btn admin-btn-primary">+ Añadir simpatizante</button>
+          <button id="btn-exportar-simpatizantes" class="admin-btn admin-btn-outline">⬇ Exportar CSV</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="tabla-simpatizantes">
+          <thead>
+            <tr><th>Nombre</th><th>Email</th><th>Fuente</th><th>Fecha registro</th><th>Acción</th></tr>
+          </thead>
+          <tbody id="tbody-simpatizantes">
+            <tr><td colspan="5" style="padding:20px; text-align:center;">Cargando simpatizantes...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- PANEL: MENSAJES -->
+    <div class="admin-panel" id="panel-mensajes">
+      <div class="admin-panel-header">
+        <h2>Mensajes Recibidos</h2>
+        <button class="admin-btn admin-btn-outline">Marcar todos como leídos</button>
+      </div>
+      <div class="admin-supabase-note">
+        📌 En producción, esta tabla se cargará desde la tabla <code>mensajes</code> de Supabase, enviados desde el formulario de contacto.
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Fecha</th><th>Nombre</th><th>Email</th><th>Asunto</th><th>Estado</th><th>Acción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>8 May 2026</td><td>Pedro Sánchez</td><td>pedro@ejemplo.es</td><td>Consulta sobre eventos</td><td><span class="admin-badge yellow">Nuevo</span></td><td><button class="admin-btn-sm">Ver</button></td></tr>
+            <tr><td>5 May 2026</td><td>Laura López</td><td>laura@ejemplo.es</td><td>Colaboración</td><td><span class="admin-badge green">Leído</span></td><td><button class="admin-btn-sm">Ver</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PANEL: MARKETING -->
+    <div class="admin-panel" id="panel-marketing">
+      <div class="admin-panel-header">
+        <h2>Marketing &amp; Comunicaciones</h2>
+      </div>
+      <div class="admin-supabase-note">
+        📧 Envía avisos y recordatorios a los simpatizantes mediante EmailJS. <strong>Prueba siempre el mensaje antes de enviarlo masivamente.</strong>
+      </div>
+
+      <div style="max-width: 700px; margin: 24px auto 0; display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- REDACTAR -->
+        <div style="background:#fff; border: 1px solid #e8e0d0; border-radius: 8px; padding: 32px;">
+          <h3 style="font-family:'Cinzel',serif; font-size:1rem; margin-bottom:24px; color:#3a2a1a;">✍️ Redactar Campaña</h3>
+          <div class="admin-form-group">
+            <label>Asunto del mensaje *</label>
+            <input type="text" id="mkt-asunto" class="admin-form-input" placeholder="Ej: Recordatorio — Conferencia del Duque de Moctezuma">
+          </div>
+          
+          <div style="display:flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+            <div style="flex:1; min-width: 120px;">
+              <label style="font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; display: block; color: var(--ink-deep);">Hora</label>
+              <input type="text" id="mkt-hora" class="admin-form-input" placeholder="Ej: 19:00 h">
+            </div>
+            <div style="flex:1; min-width: 120px;">
+              <label style="font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; display: block; color: var(--ink-deep);">Lugar</label>
+              <input type="text" id="mkt-lugar" class="admin-form-input" placeholder="Ej: Salón de actos">
+            </div>
+            <div style="flex:1; min-width: 120px;">
+              <label style="font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; display: block; color: var(--ink-deep);">Ubicación</label>
+              <input type="text" id="mkt-ubicacion" class="admin-form-input" placeholder="Ej: Madrid">
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Cuerpo del mensaje *</label>
+            <textarea id="mkt-cuerpo" class="admin-form-input" rows="8" placeholder="Escribe aquí el contenido del aviso o recordatorio...&#10;&#10;Recuerda que el destinatario recibirá este texto tal cual."></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label>Firma / Remitente</label>
+            <input type="text" id="mkt-firma" class="admin-form-input" value="IAparaseniors — Asociación Cultural">
+          </div>
+        </div>
+
+        <!-- PASO 1: PRUEBA -->
+        <div style="background:#fff; border: 2px solid #c9a84c; border-radius: 8px; padding: 28px;">
+          <h3 style="font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:0.08em; color:#c9a84c; text-transform:uppercase; margin-bottom: 16px;">Paso 1 — Enviar email de prueba</h3>
+          <p style="font-size:0.83rem; color:#5a4a3a; margin-bottom:16px;">Recibirás el email en la dirección indicada para verificar el formato antes del envío masivo.</p>
+          <div style="display:flex; gap:12px; align-items:flex-end; flex-wrap: wrap;">
+            <div style="flex:1; min-width: 200px;">
+              <label style="font-size:0.75rem; display:block; margin-bottom:4px;">Email de prueba</label>
+              <input type="email" id="mkt-test-email" class="admin-form-input" placeholder="tu@email.com">
+            </div>
+            <button id="btn-enviar-prueba" class="admin-btn admin-btn-outline" style="height:40px; white-space:nowrap;">📤 Enviar prueba</button>
+          </div>
+          <div id="mkt-test-result" style="margin-top:12px; font-size:0.82rem; padding: 10px; border-radius: 4px; display:none;"></div>
+        </div>
+
+        <!-- PASO 2: MASIVO -->
+        <div style="background:#fff; border: 1px solid #e8e0d0; border-radius: 8px; padding: 28px;">
+          <h3 style="font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:0.08em; color:#3a2a1a; text-transform:uppercase; margin-bottom: 16px;">Paso 2 — Envío masivo a simpatizantes</h3>
+          <div id="mkt-lista-preview" style="background:#f9f6f0; padding:16px; border-radius:6px; font-size:0.83rem; color:#5a4a3a; margin-bottom:20px;">
+            Cargando lista de simpatizantes...
+          </div>
+          <div style="background: #fff8e1; border-left: 3px solid #f59e0b; padding:12px 16px; border-radius:4px; font-size:0.82rem; color:#78350f; margin-bottom:20px;">
+            ⚠️ <strong>Atención:</strong> Esta acción enviará un email a <strong>todos los simpatizantes activos</strong>. Asegúrate de haber realizado el envío de prueba previamente.
+          </div>
+          <button id="btn-enviar-masivo" class="admin-btn admin-btn-primary" disabled style="width:100%;">
+            🚀 Enviar a todos los simpatizantes
+          </button>
+          <div id="mkt-masivo-result" style="margin-top:12px; font-size:0.82rem; padding:10px; border-radius:4px; display:none;"></div>
+        </div>
+
+        <!-- ESTADO DEL SERVICIO -->
+        <div style="background:#fff; border: 1px solid #e8e0d0; border-radius: 8px; padding: 20px;">
+          <h3 style="font-family:'Cinzel',serif; font-size:0.85rem; color:#3a2a1a; margin-bottom:12px;">🔌 Estado del Servicio EmailJS</h3>
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.83rem; color:#5a4a3a;">
+            <span id="mkt-status-dot" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ccc; flex-shrink:0;"></span>
+            <span id="mkt-status-text">Comprobando conexión...</span>
+          </div>
+          <div style="margin-top: 12px; font-size: 0.78rem; color: #9a8a7a;">
+            Service ID: <code>service_sfxfhke</code> · Template: <code>template_5jjf7vs</code>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL NUEVO CONTENIDO -->
+<div id="modal-contenido" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content">
+    <div class="admin-modal-header">
+      <h2>Añadir Nuevo Contenido</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-contenido">&times;</button>
+    </div>
+    <form id="form-nuevo-contenido">
+      <div class="admin-form-group">
+        <label>Título</label>
+        <input type="text" id="cont-titulo" class="admin-form-input" required>
+      </div>
+      <div class="admin-form-group">
+        <label>Tipo de Contenido</label>
+        <select id="cont-tipo" class="admin-form-input">
+          <option value="Escrito">Escrito</option>
+          <option value="Acta">Acta</option>
+          <option value="Barómetro">Barómetro</option>
+          <option value="Vídeo">Vídeo</option>
+          <option value="Conferencia">Conferencia</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label>Autor</label>
+        <select id="cont-autor" class="admin-form-input">
+          <option value="">Selecciona un autor (opcional)</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label>Enlace (YouTube o PDF)</label>
+        <input type="url" id="cont-url" class="admin-form-input" placeholder="https://...">
+      </div>
+<div class="admin-form-group">
+  <label>Archivo local (PDF, imagen, etc.)</label>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <input type="file" id="cont-archivo" accept=".pdf,.png,.jpg,.jpeg,.gif" style="display:none;">
+    <button id="btn-seleccionar-archivo" class="admin-btn admin-btn-outline" type="button">📁 Seleccionar archivo</button>
+    <span id="archivo-nombre" style="font-size:0.85rem; color:#555;"></span>
+  </div>
+</div>
+      <div class="admin-form-group">
+        <label>URL de la miniatura/imagen</label>
+        <input type="url" id="cont-imagen" class="admin-form-input" placeholder="https://...">
+      </div>
+      <div class="admin-form-group">
+        <label>Resumen / Descripción</label>
+        <textarea id="cont-resumen" class="admin-form-input" rows="3"></textarea>
+      </div>
+      <div class="admin-form-group" style="flex-direction:row; align-items:center;">
+        <input type="checkbox" id="cont-publicado" checked style="margin-right:10px;">
+        <label for="cont-publicado" style="margin:0; font-weight: 600;">Visible en la web (Público)</label>
+      </div>
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%; margin-top:15px;">Guardar Contenido</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL NUEVO EVENTO -->
+<div id="modal-evento" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content">
+    <div class="admin-modal-header">
+      <h2>Añadir Nuevo Evento</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-evento">&times;</button>
+    </div>
+    <form id="form-nuevo-evento">
+      <div class="admin-form-group">
+        <label>Título del Evento</label>
+        <input type="text" id="ev-titulo" class="admin-form-input" required>
+      </div>
+      <div class="admin-form-group">
+        <label>Fecha y Hora</label>
+        <input type="datetime-local" id="ev-fecha" class="admin-form-input" required>
+      </div>
+      <div class="admin-form-group">
+        <label>Lugar / Ubicación</label>
+        <input type="text" id="ev-lugar" class="admin-form-input" placeholder="Ej: Madrid, Online, etc.">
+      </div>
+      <div class="admin-form-group">
+        <label>Tipo de Evento</label>
+        <select id="ev-tipo" class="admin-form-input">
+          <option value="Conferencia">Conferencia</option>
+          <option value="Visita Cultural">Visita Cultural</option>
+          <option value="Charla Online">Charla Online</option>
+          <option value="Presentación">Presentación</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label>URL de la Imagen (opcional)</label>
+        <input type="url" id="ev-imagen" class="admin-form-input" placeholder="https://...">
+      </div>
+      <div class="admin-form-group">
+        <label>Descripción</label>
+        <textarea id="ev-descripcion" class="admin-form-input" rows="3"></textarea>
+      </div>
+      <div class="admin-form-group" style="flex-direction:row; align-items:center;">
+        <input type="checkbox" id="ev-registro" checked style="margin-right:10px;">
+        <label for="ev-registro" style="margin:0;">Inscripción abierta</label>
+      </div>
+      <div class="admin-form-group" style="flex-direction:row; align-items:center;">
+        <input type="checkbox" id="ev-publicado" checked style="margin-right:10px;">
+        <label for="ev-publicado" style="margin:0; font-weight: 600;">Visible en la web</label>
+      </div>
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%; margin-top:15px;">Guardar Evento</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL NUEVO AUTOR -->
+<div id="modal-autor" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content">
+    <div class="admin-modal-header">
+      <h2>Añadir Nuevo Autor</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-autor">&times;</button>
+    </div>
+    <form id="form-nuevo-autor">
+      <div class="admin-form-group">
+        <label>Nombre del Autor</label>
+        <input type="text" id="aut-nombre" class="admin-form-input" required>
+      </div>
+      <div class="admin-form-group">
+        <label>URL de la Foto (opcional)</label>
+        <input type="url" id="aut-foto" class="admin-form-input" placeholder="https://...">
+      </div>
+      <div class="admin-form-group">
+        <label>Biografía / Descripción</label>
+        <textarea id="aut-bio" class="admin-form-input" rows="4"></textarea>
+      </div>
+      <div class="admin-form-group" style="flex-direction:row; align-items:center;">
+        <input type="checkbox" id="aut-publicado" checked style="margin-right:10px;">
+        <label for="aut-publicado" style="margin:0; font-weight: 600;">Visible en la web</label>
+      </div>
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%; margin-top:15px;">Guardar Autor</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CARGA MASIVA -->
+<div id="modal-carga-masiva" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content" style="max-width: 800px;">
+    <div class="admin-modal-header">
+      <h2>Carga Masiva de Contenidos</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-carga">&times;</button>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <p style="font-size: 0.9rem; color: #666; line-height: 1.5;">
+        Pega aquí tus datos desde Excel o un CSV. Formato esperado (separado por tabulación o punto y coma):<br>
+        <code>Nombre Autor ; Título ; Tipo (vídeo/escrito) ; URL ; Resumen</code>
+      </p>
+    </div>
+    <textarea id="bulk-data" class="admin-form-input" rows="12" placeholder="César Pérez ; El Derecho en Indias ; escrito ; https://... ; Resumen corto..."></textarea>
+    
+    <div id="bulk-preview" style="margin-top: 15px; font-size: 0.85rem; max-height: 150px; overflow-y: auto; background: #f9f9f9; padding: 10px; border-radius: 4px; display:none;"></div>
+
+    <div style="margin-top: 20px; display: flex; gap: 10px;">
+      <button id="btn-procesar-carga" class="admin-btn admin-btn-primary" style="flex:1">Importar ahora</button>
+      <button id="btn-cancelar-carga" class="admin-btn" style="flex:1">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL INSCRITOS POR EVENTO -->
+<div id="modal-inscritos" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content" style="max-width: 860px;">
+    <div class="admin-modal-header">
+      <h2 id="modal-inscritos-titulo">Inscritos</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-inscritos">&times;</button>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+      <p id="modal-inscritos-count" style="font-size:0.85rem; color:#5a4a3a; margin:0;"></p>
+      <div style="display:flex; gap:10px;">
+        <button id="btn-exportar-inscritos" class="admin-btn admin-btn-outline" style="font-size:0.8rem;">⬇ Exportar CSV</button>
+        <button id="btn-abrir-add-inscrito" class="admin-btn admin-btn-primary" style="font-size:0.8rem;">+ Añadir inscrito</button>
+      </div>
+    </div>
+    <div class="admin-table-wrap" style="max-height: 420px; overflow-y: auto;">
+      <table class="admin-table" id="tabla-inscritos">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Comentarios</th>
+            <th>Fecha</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-inscritos">
+          <tr><td colspan="6" style="padding:20px; text-align:center;">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AÑADIR INSCRITO MANUALMENTE -->
+<div id="modal-add-inscrito" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content" style="max-width: 500px;">
+    <div class="admin-modal-header">
+      <h2>Añadir Inscrito Manualmente</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-add-inscrito">&times;</button>
+    </div>
+    <p style="font-size:0.83rem; color:#5a4a3a; margin-bottom:20px;">
+      Evento: <strong id="add-inscrito-evento-titulo" style="color:#3a2a1a;"></strong>
+    </p>
+    <form id="form-add-inscrito">
+      <div class="admin-form-group">
+        <label>Nombre completo *</label>
+        <input type="text" id="add-insc-nombre" class="admin-form-input" required placeholder="Nombre y apellidos">
+      </div>
+      <div class="admin-form-group">
+        <label>Correo electrónico *</label>
+        <input type="email" id="add-insc-email" class="admin-form-input" required placeholder="correo@ejemplo.es">
+      </div>
+      <div class="admin-form-group">
+        <label>Teléfono</label>
+        <input type="tel" id="add-insc-telefono" class="admin-form-input" placeholder="+34 600 000 000">
+      </div>
+      <div class="admin-form-group">
+        <label>Comentarios</label>
+        <textarea id="add-insc-comentarios" class="admin-form-input" rows="3" placeholder="Observaciones..."></textarea>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button type="submit" id="btn-submit-add-inscrito" class="admin-btn admin-btn-primary" style="flex:1;">Guardar inscrito</button>
+        <button type="button" id="btn-cancelar-add-inscrito" class="admin-btn admin-btn-outline" style="flex:1;">Cancelar</button>
+      </div>
+      <div id="add-inscrito-msg" style="margin-top:12px; font-size:0.83rem; display:none; padding:10px; border-radius:4px;"></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabaseClient.js"></script>
+<!-- Brevo setup pending -->
+
+<!-- MODAL AÑADIR SIMPATIZANTE -->
+<div id="modal-add-simpatizante" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content" style="max-width: 520px;">
+    <div class="admin-modal-header">
+      <h2>Añadir Simpatizante</h2>
+      <button class="admin-close-modal" id="btn-cerrar-modal-add-simpatizante">&times;</button>
+    </div>
+    <form id="form-add-simpatizante">
+      <div class="admin-form-group">
+        <label>Nombre completo *</label>
+        <input type="text" id="add-simp-nombre" class="admin-form-input" required placeholder="Nombre y apellidos">
+      </div>
+      <div class="admin-form-group">
+        <label>Correo electrónico *</label>
+        <input type="email" id="add-simp-email" class="admin-form-input" required placeholder="correo@ejemplo.es">
+      </div>
+      <div class="admin-form-group">
+        <label>Teléfono</label>
+        <input type="tel" id="add-simp-telefono" class="admin-form-input" placeholder="+34 600 000 000">
+      </div>
+      <div class="admin-form-group">
+        <label>Evento al que asistió / se inscribió</label>
+        <select id="add-simp-evento" class="admin-form-input">
+          <option value="">— Sin evento vinculado —</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label>Fuente / Observaciones</label>
+        <input type="text" id="add-simp-fuente" class="admin-form-input" placeholder="Ej: wix, formulario web, evento presencial...">
+      </div>
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button type="submit" id="btn-submit-add-simpatizante" class="admin-btn admin-btn-primary" style="flex:1;">Guardar simpatizante</button>
+        <button type="button" id="btn-cancelar-add-simpatizante" class="admin-btn admin-btn-outline" style="flex:1;">Cancelar</button>
+      </div>
+      <div id="add-simp-msg" style="margin-top:12px; font-size:0.83rem; display:none; padding:10px; border-radius:4px;"></div>
+    </form>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
