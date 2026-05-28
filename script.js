@@ -70,12 +70,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const videos = data.filter(c => c.content_type.toLowerCase() === 'vídeo' || c.content_type.toLowerCase() === 'video');
 
         if (documentos.length > 0) {
-            docsContainer.innerHTML = documentos.map(doc => `
+            // Conservar los elementos estáticos (data-static) y añadir los dinámicos
+            const staticItems = Array.from(docsContainer.querySelectorAll('[data-static]'));
+            const dynamicHTML = documentos.map(doc => `
                 <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center card-hover">
                     <span class="font-medium text-gray-700">${doc.title}</span>
                     <a href="${doc.file_url || '#'}" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition">Ver</a>
                 </li>
             `).join('');
+            docsContainer.innerHTML = staticItems.map(el => el.outerHTML).join('') + dynamicHTML;
         }
 
         if (videos.length > 0) {
@@ -128,6 +131,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 msg.style.color = '#22c55e';
                 msg.textContent = '¡Mensaje enviado con éxito! Te responderemos pronto.';
                 contactForm.reset();
+
+                // T8: Enviar email de respuesta automática al usuario
+                try {
+                    await fetch('/api/brevo', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            toEmail: email,
+                            toName: name,
+                            subject: 'Gracias por contactar con IA para Seniors',
+                            senderName: 'IAparaseniors.org',
+                            htmlContent: `Querido amigo:<br><br>IA para Seniors te agradece tu sugerencia. Pronto tendrás noticias nuestras al respecto.<br><br>Recibe un cordial saludo y continúa siguiéndonos.<br><br>Firmado: IAparaseniors.org`
+                        })
+                    });
+                } catch (emailErr) {
+                    console.warn('No se pudo enviar el email de confirmación:', emailErr);
+                }
             }
         });
     }
