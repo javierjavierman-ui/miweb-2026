@@ -81,6 +81,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             docsContainer.innerHTML = staticItems.map(el => el.outerHTML).join('') + dynamicHTML;
         }
 
+        // Limpiar spinner de carga
+        const loadingEl = document.getElementById('videos-loading');
+        if (loadingEl) loadingEl.remove();
+
         if (videos.length > 0) {
             videosContainer.innerHTML = videos.map(vid => `
                 <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 card-hover flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -93,6 +97,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </a>
                 </li>
             `).join('');
+        } else {
+            videosContainer.innerHTML = '<li class="text-center text-gray-400 py-6"><i class="fas fa-video-slash mr-2"></i>Próximamente publicaremos nuevos videos.</li>';
         }
     }
 

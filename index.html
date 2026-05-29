@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IAparaseniors: La IA a tu alcance</title>
     <meta name="description" content="IAparaseniors: aprende a usar la Inteligencia Artificial de forma sencilla y práctica. Guías, videos, trucos e itinerarios formativos para seniors.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="IAparaseniors: La IA a tu alcance">
+    <meta property="og:description" content="Acompañamos a nuestros amigos seniors a descubrir, entender y aprovechar la Inteligencia Artificial en su día a día.">
+    <meta property="og:url" content="https://iaparaseniors.org">
+    <meta property="og:type" content="website">
     
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,13 +43,32 @@
                     <a href="#quiensoy" class="text-gray-600 hover:text-blue-600 font-medium transition">Quién soy</a>
                     <a href="#contacto" class="text-gray-600 hover:text-blue-600 font-medium transition">Contacto</a>
                 </div>
-                <!-- Top Right Próximo Evento (Replaced Neural Network) -->
+                <!-- Botón hamburguesa móvil -->
+                <button id="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-gray-100 transition" aria-label="Abrir menú" aria-expanded="false">
+                    <span class="block w-6 h-0.5 bg-gray-700 mb-1 transition-all" id="ham-line-1"></span>
+                    <span class="block w-6 h-0.5 bg-gray-700 mb-1 transition-all" id="ham-line-2"></span>
+                    <span class="block w-6 h-0.5 bg-gray-700 transition-all" id="ham-line-3"></span>
+                </button>
+                <!-- Top Right Próximo Evento -->
                 <div class="hidden lg:flex justify-end items-center">
                     <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-bold border border-blue-100 shadow-sm">
                         <i class="far fa-calendar-alt text-blue-500"></i> Próximo evento: Muy pronto
                     </span>
                 </div>
             </div>
+        </div>
+        <!-- Menú móvil desplegable -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 shadow-md px-4 py-4">
+            <nav class="flex flex-col space-y-3">
+                <a href="#inicio" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Inicio</a>
+                <a href="#eventos" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Eventos</a>
+                <a href="#contenidos" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Contenidos</a>
+                <a href="#novedades" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Novedades</a>
+                <a href="#trucos" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Trucos</a>
+                <a href="#itinerario" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Itinerario</a>
+                <a href="#quiensoy" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Quién soy</a>
+                <a href="#contacto" class="text-gray-700 hover:text-blue-600 font-medium py-1 transition mobile-nav-link">Contacto</a>
+            </nav>
         </div>
     </nav>
 
@@ -158,7 +182,11 @@
                         <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                             <i class="fas fa-play-circle text-red-500"></i> Videos Tutoriales
                         </h3>
-                        <ul class="space-y-4" id="videos-container"></ul>
+                        <ul class="space-y-4" id="videos-container">
+                            <li class="text-center text-gray-400 py-4" id="videos-loading">
+                                <i class="fas fa-spinner fa-spin mr-2"></i> Cargando videos...
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="text-center mt-8">
@@ -243,6 +271,18 @@
                             <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Claude%20y%20Office.png" alt="Claude y Office" class="w-full object-contain">
                             <div class="p-4 text-center">
                                 <p class="font-bold text-gray-700 text-sm">Claude y Office</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
+                            <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/20%20prompts%20para%20NotebookLM.png" alt="20 prompts para NotebookLM" class="w-full object-contain">
+                            <div class="p-4 text-center">
+                                <p class="font-bold text-gray-700 text-sm">20 prompts para NotebookLM</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
+                            <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Trabajar%20con%20Claude.png" alt="Trabajar con Claude" class="w-full object-contain">
+                            <div class="p-4 text-center">
+                                <p class="font-bold text-gray-700 text-sm">Trabajar con Claude</p>
                             </div>
                         </div>
                     </div>
@@ -448,6 +488,45 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
     <script src="script.js"></script>
+
+    <!-- Menú móvil toggle -->
+    <script>
+      (function() {
+        const btn = document.getElementById('menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        const l1 = document.getElementById('ham-line-1');
+        const l2 = document.getElementById('ham-line-2');
+        const l3 = document.getElementById('ham-line-3');
+        if (!btn || !menu) return;
+
+        btn.addEventListener('click', () => {
+          const isOpen = !menu.classList.contains('hidden');
+          menu.classList.toggle('hidden', isOpen);
+          btn.setAttribute('aria-expanded', String(!isOpen));
+          // Animar hamburguesa → X
+          if (!isOpen) {
+            l1.style.transform = 'translateY(6px) rotate(45deg)';
+            l2.style.opacity = '0';
+            l3.style.transform = 'translateY(-6px) rotate(-45deg)';
+          } else {
+            l1.style.transform = '';
+            l2.style.opacity = '';
+            l3.style.transform = '';
+          }
+        });
+
+        // Cerrar al pulsar un enlace
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+          link.addEventListener('click', () => {
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            l1.style.transform = '';
+            l2.style.opacity = '';
+            l3.style.transform = '';
+          });
+        });
+      })();
+    </script>
 
 </body>
 </html>
