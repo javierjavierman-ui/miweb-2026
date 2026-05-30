@@ -350,17 +350,37 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function loadSupporters() {
-    const { data, error } = await supabaseClient.from('contactos').select('*').order('created_at', { ascending: false });
+    // Carga sin ordenar por created_at porque el nombre del campo puede variar en la tabla 'contactos'
+    const { data, error } = await supabaseClient.from('contactos').select('*');
     const tbody = document.querySelector('#panel-simpatizantes tbody');
     if (error) {
       console.error('Error Supabase (Contactos):', error);
       return tbody.innerHTML = `<tr><td colspan="5" style="color:red; padding:20px;">Error cargando simpatizantes: ${error.message}</td></tr>`;
     }
     if (!data || data.length === 0) return tbody.innerHTML = '<tr><td colspan="5" style="padding:20px;">No hay simpatizantes registrados en la tabla contactos.</td></tr>';
-    
+
+    // Detectar dinámicamente el campo de fecha disponible
+    const firstRow = data[0];
+    const dateField = ['created_at','fecha','fecha_registro','timestamp','date','created'].find(f => firstRow[f] !== undefined);
+
+    // Ordenar por fecha si encontramos el campo (más recientes primero)
+    if (dateField) {
+      data.sort((a, b) => new Date(b[dateField]) - new Date(a[dateField]));
+    }
+
     tbody.innerHTML = data.map(s => {
-      const d = new Date(s.created_at).toLocaleDateString('es-ES');
-      return `<tr><td>${s.name || s.nombre || '-'}</td><td>${s.email || '-'}</td><td>${s.source || s.fuente || '-'}</td><td>${d}</td><td><button class="admin-btn-sm red delete-btn" data-table="contactos" data-id="${s.id}">Eliminar</button></td></tr>`;
+      const rawDate = dateField ? s[dateField] : null;
+      const d = rawDate ? new Date(rawDate).toLocaleDateString('es-ES') : '-';
+      const nombre = s.name || s.nombre || s.full_name || s.nombre_completo || '-';
+      const email  = s.email || s.correo || '-';
+      const fuente = s.source || s.fuente || s.origen || '-';
+      return `<tr>
+        <td>${nombre}</td>
+        <td>${email}</td>
+        <td>${fuente}</td>
+        <td>${d}</td>
+        <td><button class="admin-btn-sm red delete-btn" data-table="contactos" data-id="${s.id}">Eliminar</button></td>
+      </tr>`;
     }).join('');
   }
 
@@ -805,26 +825,30 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (btnExportar) {
     btnExportar.addEventListener('click', async () => {
       // 1. Obtener todos los simpatizantes desde tabla contactos
-      const { data, error } = await supabaseClient.from('contactos').select('*').order('name');
+      const { data, error } = await supabaseClient.from('contactos').select('*');
       
       if (error) return alert('Error al obtener datos: ' + error.message);
       if (!data || data.length === 0) return alert('No hay datos para exportar.');
+
+      // Detectar campo de fecha dinámicamente
+      const firstRow = data[0];
+      const dateField = ['created_at','fecha','fecha_registro','timestamp','date','created'].find(f => firstRow[f] !== undefined);
 
       // 2. Generar CSV
       const headers = ['Nombre', 'Email', 'Fuente', 'Fecha Registro'];
       const csvRows = [
         headers.join(','), // Cabecera
         ...data.map(s => [
-          `"${(s.name || s.nombre || '').replace(/"/g, '""')}"`,
-          `"${(s.email || '').replace(/"/g, '""')}"`,
-          `"${(s.source || s.fuente || 'web').replace(/"/g, '""')}"`,
-          `"${new Date(s.created_at).toLocaleDateString('es-ES')}"`
+          `"${(s.name || s.nombre || s.full_name || '').replace(/"/g, '""')}"`,
+          `"${(s.email || s.correo || '').replace(/"/g, '""')}"`,
+          `"${(s.source || s.fuente || s.origen || 'web').replace(/"/g, '""')}"`,
+          `"${dateField && s[dateField] ? new Date(s[dateField]).toLocaleDateString('es-ES') : '-'}"`
         ].join(','))
       ];
       const csvString = csvRows.join('\n');
 
       // 3. Descargar archivo
-      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
