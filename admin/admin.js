@@ -350,14 +350,17 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function loadSupporters() {
-    const { data, error } = await supabaseClient.from('supporters').select('*').order('created_at', { ascending: false });
+    const { data, error } = await supabaseClient.from('contactos').select('*').order('created_at', { ascending: false });
     const tbody = document.querySelector('#panel-simpatizantes tbody');
-    if (error || !data) return tbody.innerHTML = '<tr><td colspan="5">Error cargando simpatizantes</td></tr>';
-    if (data.length === 0) return tbody.innerHTML = '<tr><td colspan="5">No hay simpatizantes registrados</td></tr>';
+    if (error) {
+      console.error('Error Supabase (Contactos):', error);
+      return tbody.innerHTML = `<tr><td colspan="5" style="color:red; padding:20px;">Error cargando simpatizantes: ${error.message}</td></tr>`;
+    }
+    if (!data || data.length === 0) return tbody.innerHTML = '<tr><td colspan="5" style="padding:20px;">No hay simpatizantes registrados en la tabla contactos.</td></tr>';
     
     tbody.innerHTML = data.map(s => {
       const d = new Date(s.created_at).toLocaleDateString('es-ES');
-      return `<tr><td>${s.name}</td><td>${s.email}</td><td>${s.source || '-'}</td><td>${d}</td><td><button class="admin-btn-sm red delete-btn" data-table="supporters" data-id="${s.id}">Eliminar</button></td></tr>`;
+      return `<tr><td>${s.name || s.nombre || '-'}</td><td>${s.email || '-'}</td><td>${s.source || s.fuente || '-'}</td><td>${d}</td><td><button class="admin-btn-sm red delete-btn" data-table="contactos" data-id="${s.id}">Eliminar</button></td></tr>`;
     }).join('');
   }
 
@@ -801,8 +804,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const btnExportar = document.getElementById('btn-exportar-simpatizantes');
   if (btnExportar) {
     btnExportar.addEventListener('click', async () => {
-      // 1. Obtener todos los simpatizantes
-      const { data, error } = await supabaseClient.from('supporters').select('*').order('name');
+      // 1. Obtener todos los simpatizantes desde tabla contactos
+      const { data, error } = await supabaseClient.from('contactos').select('*').order('name');
       
       if (error) return alert('Error al obtener datos: ' + error.message);
       if (!data || data.length === 0) return alert('No hay datos para exportar.');
@@ -812,10 +815,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       const csvRows = [
         headers.join(','), // Cabecera
         ...data.map(s => [
-          `"${s.name}"`,
-          `"${s.email}"`,
-          `"${s.source || 'web'}"`,
-          `"${new Date(s.created_at).toLocaleDateString()}"`
+          `"${(s.name || s.nombre || '').replace(/"/g, '""')}"`,
+          `"${(s.email || '').replace(/"/g, '""')}"`,
+          `"${(s.source || s.fuente || 'web').replace(/"/g, '""')}"`,
+          `"${new Date(s.created_at).toLocaleDateString('es-ES')}"`
         ].join(','))
       ];
       const csvString = csvRows.join('\n');
@@ -858,14 +861,13 @@ document.addEventListener('DOMContentLoaded', async function () {
       txtEl.textContent = 'Brevo configurado (Serverless API).';
     }
 
-    // 2. Cargar simpatizantes para el preview
+    // 2. Cargar simpatizantes para el preview desde tabla contactos
     const preview = document.getElementById('mkt-lista-preview');
     const btnMasivo = document.getElementById('btn-enviar-masivo');
     
     const { data, error } = await supabaseClient
-      .from('supporters')
+      .from('contactos')
       .select('name, email')
-      .is('unsubscribed_at', null)
       .order('name');
 
     if (error || !data) {
@@ -882,7 +884,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
       preview.innerHTML = `
         <strong>${data.length} simpatizantes activos:</strong><br>
-        <span style="color:#5a4a3a;">${data.slice(0,5).map(s => s.name).join(', ')}${data.length > 5 ? ` y ${data.length - 5} más...` : ''}</span>
+        <span style="color:#5a4a3a;">${data.slice(0,5).map(s => s.name || s.nombre).join(', ')}${data.length > 5 ? ` y ${data.length - 5} más...` : ''}</span>
       `;
       if (btnMasivo) btnMasivo.disabled = false;
     }
@@ -1221,12 +1223,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (msg) msg.style.display = 'none';
 
       try {
-        // 1. Insertar en supporters
-        const { data: existingSup } = await supabaseClient.from('supporters')
+        // 1. Insertar en contactos
+        const { data: existingSup } = await supabaseClient.from('contactos')
           .select('id').eq('email', email).maybeSingle();
 
         if (!existingSup) {
-          const { error: supError } = await supabaseClient.from('supporters').insert([{
+          const { error: supError } = await supabaseClient.from('contactos').insert([{
             name: nombre,
             email: email,
             consent: true,

@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Panel de administración privado de IAparaseniors. Gestión de eventos, contenidos, autores, simpatizantes y mensajes.">
+<meta name="robots" content="noindex, nofollow">
 <title>Panel de Administración — IAparaseniors</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Cinzel:wght@400;600&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
@@ -113,19 +115,13 @@
         <h2>Eventos</h2>
         <button id="btn-nuevo-evento" class="admin-btn admin-btn-primary">+ Nuevo evento</button>
       </div>
-      <div class="admin-supabase-note">
-        📌 En producción, esta tabla se cargará desde la tabla <code>eventos</code> de Supabase.
-      </div>
       <div class="admin-table-wrap">
         <table class="admin-table">
           <thead>
             <tr><th>Fecha</th><th>Título</th><th>Tipo</th><th>Lugar</th><th>Estado</th><th>Inscritos</th><th>Acciones</th></tr>
           </thead>
           <tbody>
-            <tr><td>20 Jun 2026</td><td>Visita al Monasterio del Escorial</td><td>Visita Cultural</td><td>El Escorial, Madrid</td><td><span class="admin-badge green">Abierto</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
-            <tr><td>15 Jul 2026</td><td>Conferencia: La España Olvidada</td><td>Conferencia</td><td>Madrid</td><td><span class="admin-badge green">Abierto</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
-            <tr><td>10 Sep 2026</td><td>Ciclo Indígenas — Perú y el Caribe</td><td>Charla Online</td><td>Zoom</td><td><span class="admin-badge yellow">Próximo</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
-            <tr><td>12 Oct 2026</td><td>Barómetro de la Hispanidad 2026</td><td>Presentación</td><td>Madrid</td><td><span class="admin-badge yellow">Próximo</span></td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td colspan="7" style="padding:20px; text-align:center; color:#9a8a7a;">Cargando eventos desde Supabase...</td></tr>
           </tbody>
         </table>
       </div>
@@ -137,9 +133,6 @@
         <h2>Contenidos</h2>
         <button id="btn-nuevo-contenido" class="admin-btn admin-btn-primary">+ Nuevo contenido</button>
         <button id="btn-carga-masiva" class="admin-btn admin-btn-outline">📂 Carga Masiva</button>
-      </div>
-      <div class="admin-supabase-note">
-        📌 En producción, esta tabla se cargará desde la tabla <code>contenidos</code> de Supabase.
       </div>
       <div class="admin-table-wrap">
         <table class="admin-table">
@@ -157,18 +150,13 @@
         <h2>Autores</h2>
         <button id="btn-nuevo-autor" class="admin-btn admin-btn-primary">+ Nuevo autor</button>
       </div>
-      <div class="admin-supabase-note">
-        📌 En producción, esta tabla se cargará desde la tabla <code>autores</code> de Supabase.
-      </div>
       <div class="admin-table-wrap">
         <table class="admin-table">
           <thead>
             <tr><th>Nombre</th><th>Cargo</th><th>Estado</th><th>Acciones</th></tr>
           </thead>
           <tbody>
-            <tr><td>César Pérez Guevara</td><td>Historiador</td><td>Derecho colonial</td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
-            <tr><td>José J. Laorden</td><td>Investigador</td><td>Conquista y pueblos indígenas</td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
-            <tr><td>Francisco Massó</td><td>Analista político</td><td>Revisionismo histórico</td><td><button class="admin-btn-sm">Editar</button> <button class="admin-btn-sm red">Eliminar</button></td></tr>
+            <tr><td colspan="4" style="padding:20px; text-align:center; color:#9a8a7a;">Cargando autores desde Supabase...</td></tr>
           </tbody>
         </table>
       </div>
@@ -202,17 +190,13 @@
         <h2>Mensajes Recibidos</h2>
         <button class="admin-btn admin-btn-outline">Marcar todos como leídos</button>
       </div>
-      <div class="admin-supabase-note">
-        📌 En producción, esta tabla se cargará desde la tabla <code>mensajes</code> de Supabase, enviados desde el formulario de contacto.
-      </div>
       <div class="admin-table-wrap">
         <table class="admin-table">
           <thead>
             <tr><th>Fecha</th><th>Nombre</th><th>Email</th><th>Asunto</th><th>Estado</th><th>Acción</th></tr>
           </thead>
           <tbody>
-            <tr><td>8 May 2026</td><td>Pedro Sánchez</td><td>pedro@ejemplo.es</td><td>Consulta sobre eventos</td><td><span class="admin-badge yellow">Nuevo</span></td><td><button class="admin-btn-sm">Ver</button></td></tr>
-            <tr><td>5 May 2026</td><td>Laura López</td><td>laura@ejemplo.es</td><td>Colaboración</td><td><span class="admin-badge green">Leído</span></td><td><button class="admin-btn-sm">Ver</button></td></tr>
+            <tr><td colspan="6" style="padding:20px; text-align:center; color:#9a8a7a;">Cargando mensajes desde Supabase...</td></tr>
           </tbody>
         </table>
       </div>
