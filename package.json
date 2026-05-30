@@ -4,6 +4,7 @@
   "description": "IAparatodos project",
   "main": "index.html",
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
     "nodemailer": "^6.9.13"
   }
 }

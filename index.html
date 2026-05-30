@@ -29,7 +29,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="#inicio">
-                        <img src="assets/images/logo_iaparaseniors (1).svg" alt="IAparaseniors Logo" class="h-10 md:h-12">
+                        <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Nuevo%20logo.PNG" alt="IAparaseniors Logo" class="h-10 md:h-14 object-contain">
                     </a>
                 </div>
                 <!-- Desktop Menu -->
@@ -183,6 +183,16 @@
                             <i class="fas fa-play-circle text-red-500"></i> Videos Tutoriales
                         </h3>
                         <ul class="space-y-4" id="videos-container">
+                            <!-- Video estático: Comet Rutas Turísticas -->
+                            <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 card-hover flex flex-col md:flex-row md:items-center justify-between gap-4" data-static="true">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Utilizando Comet para diseñar rutas turísticas</h4>
+                                    <p class="text-xs text-gray-500 mt-1">El Navegador asistido de Perplexity aplicado al turismo</p>
+                                </div>
+                                <a href="https://youtu.be/jH5RBBi-seI" target="_blank" class="shrink-0 px-4 py-2 bg-red-600 text-white text-sm font-bold rounded-lg hover:bg-red-700 transition flex items-center gap-2">
+                                    <i class="fab fa-youtube"></i> Ver Video
+                                </a>
+                            </li>
                             <li class="text-center text-gray-400 py-4" id="videos-loading">
                                 <i class="fas fa-spinner fa-spin mr-2"></i> Cargando videos...
                             </li>
@@ -233,10 +243,10 @@
                     </ul>
 
                     <div class="mt-8 flex flex-col items-center">
-                        <div class="w-full md:w-2/3 lg:w-1/2 rounded-xl overflow-hidden shadow-xl border-4 border-gray-200 bg-black aspect-video mb-4">
-                            <video class="w-full h-full object-cover" src="assets/videos/visita-a%20badajoz.mp4" playsinline controls></video>
+                        <div class="w-full md:w-2/3 lg:w-1/2 rounded-xl overflow-hidden shadow-xl border-2 border-gray-200 bg-black aspect-video mb-4">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/jH5RBBi-seI" title="Utilizando Comet para diseñar rutas turísticas" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
-                        <a href="https://www.perplexity.ai/comet" target="_blank" class="text-blue-600 hover:text-blue-800 font-medium text-sm text-center">
+                        <a href="https://youtu.be/jH5RBBi-seI" target="_blank" class="text-blue-600 hover:text-blue-800 font-medium text-sm text-center">
                             Utilizando Comet (el Navegador asistido de Perplexity), para diseñar rutas turísticas <i class="fas fa-external-link-alt ml-1"></i>
                         </a>
                     </div>
@@ -260,32 +270,24 @@
                 </div>
                 
                 <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-sm">
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
-                            <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Aprender%20con%20NotebookLM.png" alt="Aprender con NotebookLM" class="w-full object-contain">
-                            <div class="p-4 text-center">
-                                <p class="font-bold text-gray-700 text-sm">Aprender con NotebookLM</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
-                            <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Claude%20y%20Office.png" alt="Claude y Office" class="w-full object-contain">
-                            <div class="p-4 text-center">
-                                <p class="font-bold text-gray-700 text-sm">Claude y Office</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
-                            <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/20%20prompts%20para%20NotebookLM.png" alt="20 prompts para NotebookLM" class="w-full object-contain">
-                            <div class="p-4 text-center">
-                                <p class="font-bold text-gray-700 text-sm">20 prompts para NotebookLM</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
-                            <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Trabajar%20con%20Claude.png" alt="Trabajar con Claude" class="w-full object-contain">
-                            <div class="p-4 text-center">
-                                <p class="font-bold text-gray-700 text-sm">Trabajar con Claude</p>
-                            </div>
-                        </div>
-                    </div>
+                    <ul class="space-y-3">
+                        <li class="bg-white rounded-xl px-5 py-4 border border-blue-100 shadow-sm card-hover flex items-center gap-3">
+                            <i class="fas fa-image text-blue-400 text-lg"></i>
+                            <a href="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Aprender%20con%20NotebookLM.png" target="_blank" class="font-semibold text-blue-700 hover:text-blue-900 hover:underline transition">Aprender con NotebookLM</a>
+                        </li>
+                        <li class="bg-white rounded-xl px-5 py-4 border border-blue-100 shadow-sm card-hover flex items-center gap-3">
+                            <i class="fas fa-image text-blue-400 text-lg"></i>
+                            <a href="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Claude%20y%20Office.png" target="_blank" class="font-semibold text-blue-700 hover:text-blue-900 hover:underline transition">Claude y Office</a>
+                        </li>
+                        <li class="bg-white rounded-xl px-5 py-4 border border-blue-100 shadow-sm card-hover flex items-center gap-3">
+                            <i class="fas fa-image text-blue-400 text-lg"></i>
+                            <a href="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/20%20prompts%20para%20NotebookLM.png" target="_blank" class="font-semibold text-blue-700 hover:text-blue-900 hover:underline transition">20 prompts para NotebookLM</a>
+                        </li>
+                        <li class="bg-white rounded-xl px-5 py-4 border border-blue-100 shadow-sm card-hover flex items-center gap-3">
+                            <i class="fas fa-image text-blue-400 text-lg"></i>
+                            <a href="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/Trabajar%20con%20Claude.png" target="_blank" class="font-semibold text-blue-700 hover:text-blue-900 hover:underline transition">Trabajar con Claude</a>
+                        </li>
+                    </ul>
                     <p class="text-gray-500 text-sm text-center mt-6">Próximamente iremos añadiendo los mejores trucos y técnicas.</p>
                 </div>
 
@@ -392,29 +394,56 @@
 
         <!-- QUIÉN SOY -->
         <section id="quiensoy" class="bg-white py-16 px-4">
-            <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
-                <div class="w-full md:w-1/3">
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-100 bg-black aspect-[3/4]">
-                        <video class="w-full h-full object-cover" src="assets/videos/avatar-inicio.mp4" playsinline controls></video>
+            <div class="max-w-5xl mx-auto">
+
+                <!-- Subsección: Botón + Imagen simétrica -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-10 mb-10">
+
+                    <!-- Botón grande y delicado -->
+                    <button id="btn-acerca-javier" onclick="document.getElementById('acerca-javier-panel').classList.toggle('hidden')" class="about-btn group flex flex-col items-center justify-center gap-3 px-10 py-8 bg-white border-2 border-blue-200 rounded-3xl shadow-lg hover:shadow-xl hover:border-blue-400 transition-all duration-300 hover:-translate-y-1 min-w-[220px]" aria-expanded="false">
+                        <span class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-2xl group-hover:bg-blue-100 transition">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                        <span class="text-xl font-bold text-blue-800 tracking-tight">Acerca de Javier</span>
+                        <span class="text-xs text-gray-400 font-medium">Toca para conocerme <i class="fas fa-chevron-down ml-1"></i></span>
+                    </button>
+
+                    <!-- Imagen de clase -->
+                    <div class="w-full md:w-auto flex-1 max-w-sm">
+                        <img src="https://uvsvyelbhjhenufndbcw.supabase.co/storage/v1/object/public/Mis%20nuevos%20contenidos/La%20clase.jpg"
+                             alt="Javier impartiendo clase de IA para seniors"
+                             class="w-full rounded-2xl shadow-xl border-2 border-blue-100 object-cover aspect-[4/3]">
+                    </div>
+
+                </div>
+
+                <!-- Panel desplegable con la información -->
+                <div id="acerca-javier-panel" class="hidden">
+                    <div class="flex flex-col md:flex-row items-start gap-10">
+                        <div class="w-full md:w-1/3">
+                            <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-100 bg-black aspect-[3/4]">
+                                <video class="w-full h-full object-cover" src="assets/videos/avatar-inicio.mp4" playsinline controls></video>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-2/3">
+                            <h2 class="text-3xl font-bold text-blue-800 mb-6">Acerca de Javier</h2>
+                            <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                                Entusiasta en constante formación en el ámbito de la Inteligencia Artificial, enfocado en cómo estas tecnologías pueden aplicarse de manera práctica y ética. En el proyecto <strong>"IAparaseniors"</strong> intento combinar la capacidad de sintetizar contenidos, con la de explicar conceptos complejos, para que éstos sean accesibles a usuarios interesados en aprender y usar la IA.
+                            </p>
+                            
+                            <h3 class="text-xl font-bold text-blue-700 mb-4">Cursos y Formación Destacada</h3>
+                            <div class="grid sm:grid-cols-2 gap-3 mb-8">
+                                <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Intro a la IA (Big School)</div>
+                                <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Desarrollo con IA (Big School)</div>
+                                <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Flujos de trabajo con IA (Big School)</div>
+                                <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> IA en el Audiovisual (RTVE Haz)</div>
+                                <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Experto en Gemini (Academia Artificial)</div>
+                                <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Curso de IA 2026 (Big School)</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="w-full md:w-2/3">
-                    <h2 class="text-3xl font-bold text-blue-800 mb-6">Acerca de Javier</h2>
-                    <p class="text-gray-700 mb-6 text-lg leading-relaxed">
-                        Entusiasta en constante formación en el ámbito de la Inteligencia Artificial, enfocado en cómo estas tecnologías pueden aplicarse de manera práctica y ética. En el proyecto <strong>"IAparaseniors"</strong> intento combinar la capacidad de sintetizar contenidos, con la de explicar conceptos complejos, para que éstos sean accesibles a usuarios interesados en aprender y usar la IA.
-                    </p>
-                    
-                    <h3 class="text-xl font-bold text-blue-700 mb-4">Cursos y Formación Destacada</h3>
-                    <div class="grid sm:grid-cols-2 gap-3 mb-8">
-                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Intro a la IA (Big School)</div>
-                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Desarrollo con IA (Big School)</div>
-                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Flujos de trabajo con IA (Big School)</div>
-                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> IA en el Audiovisual (RTVE Haz)</div>
-                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Experto en Gemini (Academia Artificial)</div>
-                        <div class="flex items-start gap-2 text-sm text-gray-600"><i class="fas fa-check-circle text-blue-500 mt-1"></i> Curso de IA 2026 (Big School)</div>
-                    </div>
-                    <!-- Enlace al curriculum eliminado según solicitud -->
-                </div>
+
             </div>
             <div class="text-center mt-12">
                 <a href="#inicio" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition inline-flex items-center">

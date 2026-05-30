@@ -85,8 +85,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const loadingEl = document.getElementById('videos-loading');
         if (loadingEl) loadingEl.remove();
 
+        // Conservar elementos estáticos (data-static) igual que en documentos
+        const staticVideoItems = Array.from(videosContainer.querySelectorAll('[data-static]'));
+
         if (videos.length > 0) {
-            videosContainer.innerHTML = videos.map(vid => `
+            const dynamicVideosHTML = videos.map(vid => `
                 <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 card-hover flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h4 class="font-bold text-gray-800">${vid.title}</h4>
@@ -97,8 +100,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </a>
                 </li>
             `).join('');
+            videosContainer.innerHTML = staticVideoItems.map(el => el.outerHTML).join('') + dynamicVideosHTML;
         } else {
-            videosContainer.innerHTML = '<li class="text-center text-gray-400 py-6"><i class="fas fa-video-slash mr-2"></i>Próximamente publicaremos nuevos videos.</li>';
+            // Sin dinámicos, dejamos solo los estáticos (si los hay)
+            if (staticVideoItems.length === 0) {
+                videosContainer.innerHTML = '<li class="text-center text-gray-400 py-6"><i class="fas fa-video-slash mr-2"></i>Próximamente publicaremos nuevos videos.</li>';
+            }
+            // Si hay estáticos, ya están visibles; no hace falta hacer nada
         }
     }
 
