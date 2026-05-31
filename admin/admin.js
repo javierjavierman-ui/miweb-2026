@@ -89,7 +89,13 @@ document.addEventListener('DOMContentLoaded', async function () {
       btn.disabled = false;
 
       if (error) {
-        loginError.textContent = error.message === 'Invalid login credentials' ? 'Credenciales incorrectas' : error.message;
+        console.error('Login error:', error);
+        let msg = 'Error al iniciar sesión.';
+        if (error.message === 'Invalid login credentials') msg = 'Credenciales incorrectas. Comprueba tu email y contraseña.';
+        else if (error.message?.includes('Email not confirmed')) msg = 'Email no confirmado. Revisa tu bandeja de entrada.';
+        else if (error.message?.includes('network') || error.message?.includes('fetch')) msg = 'Error de red. Comprueba tu conexión a internet.';
+        else msg = error.message;
+        loginError.textContent = msg;
         loginError.style.display = 'block';
       } else {
         await checkAuth();
