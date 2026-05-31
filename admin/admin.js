@@ -50,23 +50,31 @@ document.addEventListener('DOMContentLoaded', async function () {
   // ── AUTENTICACIÓN CON SUPABASE ─────────────────────
   let isRecoveryMode = false;
 
+  // Muestra el dashboard con una sesión ya disponible (evita re-llamar getSession)
+  function showDashboard(session) {
+    loginWrapper.style.display = 'none';
+    recoveryWrapper.style.display = 'none';
+    updatePasswordWrapper.style.display = 'none';
+    dashboardWrapper.style.display = 'flex';
+    adminUserSpan.textContent = session.user.email;
+    loadAllData();
+  }
+
   async function checkAuth() {
-    if (isRecoveryMode) return; // No hacer checkAuth normal si estamos en modo recuperación
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-      // Mostrar dashboard
-      loginWrapper.style.display = 'none';
-      recoveryWrapper.style.display = 'none';
-      updatePasswordWrapper.style.display = 'none';
-      dashboardWrapper.style.display = 'flex';
-      adminUserSpan.textContent = session.user.email;
-      // Cargar datos
-      loadAllData();
-    } else {
-      // Mostrar login
+    if (isRecoveryMode) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        showDashboard(session);
+      } else {
+        loginWrapper.style.display = 'flex';
+        recoveryWrapper.style.display = 'none';
+        updatePasswordWrapper.style.display = 'none';
+        dashboardWrapper.style.display = 'none';
+      }
+    } catch(err) {
+      console.error('checkAuth error:', err);
       loginWrapper.style.display = 'flex';
-      recoveryWrapper.style.display = 'none';
-      updatePasswordWrapper.style.display = 'none';
       dashboardWrapper.style.display = 'none';
     }
   }
@@ -83,8 +91,20 @@ document.addEventListener('DOMContentLoaded', async function () {
       btn.textContent = 'Accediendo...';
       btn.disabled = true;
 
-      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-      
+      let data, error;
+      try {
+        const result = await supabaseClient.auth.signInWithPassword({ email, password });
+        data = result.data;
+        error = result.error;
+      } catch(fetchErr) {
+        btn.textContent = 'Acceder';
+        btn.disabled = false;
+        loginError.textContent = 'Error de red al conectar con el servidor. Comprueba tu conexión.';
+        loginError.style.display = 'block';
+        console.error('signInWithPassword fetch error:', fetchErr);
+        return;
+      }
+
       btn.textContent = 'Acceder';
       btn.disabled = false;
 
@@ -97,8 +117,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         else msg = error.message;
         loginError.textContent = msg;
         loginError.style.display = 'block';
+      } else if (data?.session) {
+        // ✅ SAFARI iOS FIX: usar la sesión devuelta directamente
+        // En Safari iOS, getSession() puede devolver null si localStorage
+        // aún no ha persistido el token. Usamos data.session directamente.
+        showDashboard(data.session);
       } else {
-        await checkAuth();
+        // Fallback: intentar getSession con un pequeño delay
+        setTimeout(async () => {
+          await checkAuth();
+        }, 300);
       }
     });
   }
