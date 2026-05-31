@@ -57,8 +57,11 @@
   </div>
 </div>
 
-<!-- LAYOUT PRINCIPAL -->
+  <!-- LAYOUT PRINCIPAL -->
 <div id="dashboard-wrapper" class="admin-layout" style="display:none;">
+
+  <!-- Overlay oscuro para cerrar sidebar en móvil -->
+  <div class="admin-sidebar-overlay" id="admin-sidebar-overlay"></div>
 
   <!-- SIDEBAR -->
   <aside class="admin-sidebar">
@@ -102,6 +105,14 @@
   <main class="admin-main">
     <!-- TOPBAR -->
     <div class="admin-topbar">
+      <!-- Botón hamburguesa solo visible en móvil -->
+      <button class="admin-hamburger" id="admin-hamburger" aria-label="Abrir menú" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
       <h1 class="admin-topbar-title" id="panel-title">Gestión de Eventos</h1>
       <div class="admin-topbar-actions">
         <span class="admin-user">Admin</span>
@@ -308,11 +319,11 @@
       <div class="admin-form-group">
         <label>Tipo de Contenido</label>
         <select id="cont-tipo" class="admin-form-input">
-          <option value="Escrito">Escrito</option>
-          <option value="Acta">Acta</option>
-          <option value="Barómetro">Barómetro</option>
-          <option value="Vídeo">Vídeo</option>
-          <option value="Conferencia">Conferencia</option>
+          <option value="Eventos">Eventos</option>
+          <option value="Novedades y actualizaciones">Novedades y actualizaciones</option>
+          <option value="Mis charlas">Mis charlas</option>
+          <option value="Vídeos tutoriales">Vídeos tutoriales</option>
+          <option value="Trucos">Trucos</option>
         </select>
       </div>
       <div class="admin-form-group">
@@ -568,5 +579,38 @@
 </div>
 
 <script src="admin.js"></script>
+
+<!-- Toggle sidebar móvil -->
+<script>
+  (function() {
+    const hamburger = document.getElementById('admin-hamburger');
+    const sidebar   = document.querySelector('.admin-sidebar');
+    const overlay   = document.getElementById('admin-sidebar-overlay');
+    if (!hamburger || !sidebar || !overlay) return;
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+    }
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+
+    // Cerrar al navegar a un panel en móvil
+    document.querySelectorAll('.admin-nav-link[data-panel]').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+      });
+    });
+  })();
+</script>
 </body>
 </html>

@@ -891,23 +891,27 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     const { data, error } = await supabaseClient
       .from('contactos')
-      .select('name, email')
-      .order('name');
+      .select('*');
 
     if (error || !data) {
       if (preview) preview.innerHTML = '<span style="color:red;">Error cargando simpatizantes: ' + (error?.message || 'desconocido') + '</span>';
       return;
     }
 
-    simpatizantesCache = data;
+    // Normalizar nombre con fallbacks
+    const normName = (s) => s.name || s.nombre || s.full_name || s.nombre_completo || '(sin nombre)';
+    const normEmail = (s) => s.email || s.correo || '';
+
+    // Mapear al formato que necesita el envío masivo
+    simpatizantesCache = data.map(s => ({ name: normName(s), email: normEmail(s) })).filter(s => s.email);
 
     if (preview) {
-      if (data.length === 0) {
+      if (simpatizantesCache.length === 0) {
         preview.innerHTML = '⚠️ No hay simpatizantes registrados en la base de datos.';
         return;
       }
       preview.innerHTML = `
-        <strong>${data.length} simpatizantes activos:</strong><br>
+        <strong>${simpatizantesCache.length} simpatizantes activos:</strong><br>
         <span style="color:#5a4a3a;">${data.slice(0,5).map(s => s.name || s.nombre).join(', ')}${data.length > 5 ? ` y ${data.length - 5} más...` : ''}</span>
       `;
       if (btnMasivo) btnMasivo.disabled = false;

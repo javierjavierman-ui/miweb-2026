@@ -49,11 +49,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }).join('');
     }
 
-    // Cargar Contenidos Dinámicos
+    // Cargar Contenidos Dinámicos — distribuye por tipología a cada sección
     async function loadContents() {
-        const docsContainer = document.getElementById('documentos-container');
-        const videosContainer = document.getElementById('videos-container');
-        if (!docsContainer || !videosContainer) return;
+        const docsContainer    = document.getElementById('documentos-container');
+        const videosContainer  = document.getElementById('videos-container');
+        const novedadesContainer = document.getElementById('novedades-container');
+        const trucosContainer  = document.getElementById('trucos-container');
 
         const { data, error } = await supabaseClient
             .from('contents')
@@ -66,49 +67,84 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        const documentos = data.filter(c => c.content_type.toLowerCase() === 'documento' || c.content_type.toLowerCase() === 'presentación' || c.content_type.toLowerCase() === 'conferencia');
-        const videos = data.filter(c => c.content_type.toLowerCase() === 'vídeo' || c.content_type.toLowerCase() === 'video');
+        // Normaliza el tipo para comparaciones robustas
+        const type = (c) => (c.content_type || '').toLowerCase().trim();
 
-        if (documentos.length > 0) {
-            // Conservar los elementos estáticos (data-static) y añadir los dinámicos
+        const misCharlas   = data.filter(c => type(c) === 'mis charlas');
+        const videos       = data.filter(c => type(c) === 'vídeos tutoriales' || type(c) === 'videos tutoriales' || type(c) === 'vídeo' || type(c) === 'video');
+        const novedades    = data.filter(c => type(c) === 'novedades y actualizaciones');
+        const trucos       = data.filter(c => type(c) === 'trucos');
+
+        // ── Mis Charlas → #documentos-container ─────────────────────
+        if (docsContainer) {
             const staticItems = Array.from(docsContainer.querySelectorAll('[data-static]'));
-            const dynamicHTML = documentos.map(doc => `
+            const dynamicHTML = misCharlas.map(doc => `
                 <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center card-hover">
                     <span class="font-medium text-gray-700">${doc.title}</span>
-                    <a href="${doc.file_url || '#'}" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition">Ver</a>
+                    <a href="${doc.youtube_url || doc.file_url || '#'}" target="_blank"
+                       class="px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg hover:bg-blue-700 transition">Ver</a>
                 </li>
             `).join('');
-            docsContainer.innerHTML = staticItems.map(el => el.outerHTML).join('') + dynamicHTML;
+            if (dynamicHTML) {
+                docsContainer.innerHTML = staticItems.map(el => el.outerHTML).join('') + dynamicHTML;
+            }
         }
 
-        // Limpiar spinner de carga
+        // ── Vídeos tutoriales → #videos-container ────────────────────
         const loadingEl = document.getElementById('videos-loading');
         if (loadingEl) loadingEl.remove();
 
-        // Conservar elementos estáticos (data-static) igual que en documentos
-        const staticVideoItems = Array.from(videosContainer.querySelectorAll('[data-static]'));
+        if (videosContainer) {
+            const staticVideoItems = Array.from(videosContainer.querySelectorAll('[data-static]'));
+            if (videos.length > 0) {
+                const dynamicVideosHTML = videos.map(vid => `
+                    <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 card-hover flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">${vid.title}</h4>
+                            <p class="text-xs text-gray-500 mt-1">${vid.summary || ''}</p>
+                        </div>
+                        <a href="${vid.youtube_url || '#'}" target="_blank"
+                           class="shrink-0 px-4 py-2 bg-red-600 text-white text-sm font-bold rounded-lg hover:bg-red-700 transition flex items-center gap-2">
+                            <i class="fab fa-youtube"></i> Ver Video
+                        </a>
+                    </li>
+                `).join('');
+                videosContainer.innerHTML = staticVideoItems.map(el => el.outerHTML).join('') + dynamicVideosHTML;
+            } else if (staticVideoItems.length === 0) {
+                videosContainer.innerHTML = '<li class="text-center text-gray-400 py-6"><i class="fas fa-video-slash mr-2"></i>Próximamente publicaremos nuevos videos.</li>';
+            }
+        }
 
-        if (videos.length > 0) {
-            const dynamicVideosHTML = videos.map(vid => `
-                <li class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 card-hover flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h4 class="font-bold text-gray-800">${vid.title}</h4>
-                        <p class="text-xs text-gray-500 mt-1">${vid.summary || ''}</p>
-                    </div>
-                    <a href="${vid.youtube_url || '#'}" target="_blank" class="shrink-0 px-4 py-2 bg-red-600 text-white text-sm font-bold rounded-lg hover:bg-red-700 transition flex items-center gap-2">
-                        <i class="fab fa-youtube"></i> Ver Video
+        // ── Novedades y actualizaciones → #novedades-container ───────
+        if (novedadesContainer && novedades.length > 0) {
+            const dynamicNovedadesHTML = novedades.map(n => `
+                <li class="p-4 bg-gray-50 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <span class="font-medium text-gray-800 flex items-center gap-3">
+                        <i class="fas fa-star text-yellow-400 text-xl"></i>
+                        ${n.title}
+                    </span>
+                    <a href="${n.youtube_url || n.file_url || '#'}" target="_blank"
+                       class="px-5 py-2 bg-blue-600 text-white text-sm font-bold rounded-full hover:bg-blue-700 transition">
+                       ${n.youtube_url ? 'Ver vídeo' : 'Ver'}
                     </a>
                 </li>
             `).join('');
-            videosContainer.innerHTML = staticVideoItems.map(el => el.outerHTML).join('') + dynamicVideosHTML;
-        } else {
-            // Sin dinámicos, dejamos solo los estáticos (si los hay)
-            if (staticVideoItems.length === 0) {
-                videosContainer.innerHTML = '<li class="text-center text-gray-400 py-6"><i class="fas fa-video-slash mr-2"></i>Próximamente publicaremos nuevos videos.</li>';
-            }
-            // Si hay estáticos, ya están visibles; no hace falta hacer nada
+            novedadesContainer.innerHTML += dynamicNovedadesHTML;
+        }
+
+        // ── Trucos → #trucos-container ───────────────────────────────
+        if (trucosContainer && trucos.length > 0) {
+            const dynamicTrucosHTML = trucos.map(t => `
+                <li class="bg-white rounded-xl px-5 py-4 border border-blue-100 shadow-sm card-hover flex items-center gap-3">
+                    <i class="fas fa-lightbulb text-blue-400 text-lg"></i>
+                    <a href="${t.youtube_url || t.file_url || '#'}" target="_blank"
+                       class="font-semibold text-blue-700 hover:text-blue-900 hover:underline transition">${t.title}</a>
+                </li>
+            `).join('');
+            trucosContainer.innerHTML += dynamicTrucosHTML;
         }
     }
+
 
     // Manejar Formulario de Contacto
     const contactForm = document.getElementById('contact-form');
