@@ -1259,7 +1259,6 @@ document.addEventListener('DOMContentLoaded', async function () {
           const { error: supError } = await supabaseClient.from('contactos').insert([{
             name: nombre,
             email: email,
-            consent: true,
             source: event_id ? `Evento: ${eventTitle}` : (fuente || 'Alta manual admin')
           }]);
           if (supError) throw new Error('Error al guardar en simpatizantes: ' + supError.message);
