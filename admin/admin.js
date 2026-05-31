@@ -1251,16 +1251,38 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (msg) msg.style.display = 'none';
 
       try {
-        // 1. Insertar en contactos
+        // 1. Insertar en contactos — detectar columnas reales antes de insertar
+        // Primero obtenemos un registro de muestra para saber los nombres reales de columnas
+        const { data: sampleRows } = await supabaseClient.from('contactos').select('*').limit(1);
+
+        // Detectar campo de nombre
+        const sampleRow = sampleRows && sampleRows.length > 0 ? sampleRows[0] : {};
+        const colNombre = ('name'   in sampleRow) ? 'name'
+                        : ('nombre' in sampleRow) ? 'nombre'
+                        : ('full_name' in sampleRow) ? 'full_name'
+                        : ('nombre_completo' in sampleRow) ? 'nombre_completo'
+                        : 'nombre'; // fallback
+        const colEmail  = ('email'  in sampleRow) ? 'email'
+                        : ('correo' in sampleRow) ? 'correo'
+                        : 'email'; // fallback
+        const colSource = ('source' in sampleRow) ? 'source'
+                        : ('fuente' in sampleRow) ? 'fuente'
+                        : ('origen' in sampleRow) ? 'origen'
+                        : null; // puede no existir
+
+        // Buscar si ya existe por email (usando el campo real)
         const { data: existingSup } = await supabaseClient.from('contactos')
-          .select('id').eq('email', email).maybeSingle();
+          .select('id').eq(colEmail, email).maybeSingle();
 
         if (!existingSup) {
-          const { error: supError } = await supabaseClient.from('contactos').insert([{
-            name: nombre,
-            email: email,
-            source: event_id ? `Evento: ${eventTitle}` : (fuente || 'Alta manual admin')
-          }]);
+          const insertPayload = {
+            [colNombre]: nombre,
+            [colEmail]: email,
+          };
+          if (colSource) {
+            insertPayload[colSource] = event_id ? `Evento: ${eventTitle}` : (fuente || 'Alta manual admin');
+          }
+          const { error: supError } = await supabaseClient.from('contactos').insert([insertPayload]);
           if (supError) throw new Error('Error al guardar en simpatizantes: ' + supError.message);
         }
 
