@@ -236,26 +236,36 @@ body { font-family:'Lato',sans-serif; background:var(--cream); color:var(--ink);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: var(--bg-body, #fdfbf7);
+  min-height: 100vh;
+  background-color: var(--cream, #fdfbf7);
+  padding: 20px;
 }
 .admin-login-box {
   background: white;
   padding: 40px;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   width: 100%;
-  max-width: 400px;
-  border: 1px solid rgba(0,0,0,0.05);
+  max-width: 420px;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 .admin-form-input {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-family: inherit;
   outline: none;
+  min-height: 44px; /* táctil — Apple HIG mínimo */
+  font-size: 1rem;  /* evita zoom automático en iOS */
 }
 .admin-form-input:focus {
   border-color: var(--gold, #c19b6c);
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.15);
+}
+@media (max-width: 480px) {
+  .admin-login-box {
+    padding: 28px 20px;
+    border-radius: 12px;
+  }
 }
 
 /* MODAL STYLES */

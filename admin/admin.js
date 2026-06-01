@@ -384,36 +384,25 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function loadSupporters() {
-    // Carga sin ordenar por created_at porque el nombre del campo puede variar en la tabla 'contactos'
-    const { data, error } = await supabaseClient.from('contactos').select('*');
+    const { data, error } = await supabaseClient
+      .from('supporters')
+      .select('*')
+      .order('created_at', { ascending: false });
     const tbody = document.querySelector('#panel-simpatizantes tbody');
     if (error) {
-      console.error('Error Supabase (Contactos):', error);
+      console.error('Error Supabase (Supporters):', error);
       return tbody.innerHTML = `<tr><td colspan="5" style="color:red; padding:20px;">Error cargando simpatizantes: ${error.message}</td></tr>`;
     }
-    if (!data || data.length === 0) return tbody.innerHTML = '<tr><td colspan="5" style="padding:20px;">No hay simpatizantes registrados en la tabla contactos.</td></tr>';
-
-    // Detectar dinámicamente el campo de fecha disponible
-    const firstRow = data[0];
-    const dateField = ['created_at','fecha','fecha_registro','timestamp','date','created'].find(f => firstRow[f] !== undefined);
-
-    // Ordenar por fecha si encontramos el campo (más recientes primero)
-    if (dateField) {
-      data.sort((a, b) => new Date(b[dateField]) - new Date(a[dateField]));
-    }
+    if (!data || data.length === 0) return tbody.innerHTML = '<tr><td colspan="5" style="padding:20px;">No hay simpatizantes registrados.</td></tr>';
 
     tbody.innerHTML = data.map(s => {
-      const rawDate = dateField ? s[dateField] : null;
-      const d = rawDate ? new Date(rawDate).toLocaleDateString('es-ES') : '-';
-      const nombre = s.name || s.nombre || s.full_name || s.nombre_completo || '-';
-      const email  = s.email || s.correo || '-';
-      const fuente = s.source || s.fuente || s.origen || '-';
+      const d = s.created_at ? new Date(s.created_at).toLocaleDateString('es-ES') : '-';
       return `<tr>
-        <td>${nombre}</td>
-        <td>${email}</td>
-        <td>${fuente}</td>
+        <td>${s.name || '-'}</td>
+        <td>${s.email || '-'}</td>
+        <td>${s.source || '-'}</td>
         <td>${d}</td>
-        <td><button class="admin-btn-sm red delete-btn" data-table="contactos" data-id="${s.id}">Eliminar</button></td>
+        <td><button class="admin-btn-sm red delete-btn" data-table="supporters" data-id="${s.id}">Eliminar</button></td>
       </tr>`;
     }).join('');
   }
@@ -858,35 +847,34 @@ document.addEventListener('DOMContentLoaded', async function () {
   const btnExportar = document.getElementById('btn-exportar-simpatizantes');
   if (btnExportar) {
     btnExportar.addEventListener('click', async () => {
-      // 1. Obtener todos los simpatizantes desde tabla contactos
-      const { data, error } = await supabaseClient.from('contactos').select('*');
-      
+      // Obtener todos los simpatizantes desde tabla supporters
+      const { data, error } = await supabaseClient
+        .from('supporters')
+        .select('*')
+        .order('created_at', { ascending: false });
+
       if (error) return alert('Error al obtener datos: ' + error.message);
-      if (!data || data.length === 0) return alert('No hay datos para exportar.');
+      if (!data || data.length === 0) return alert('No hay simpatizantes para exportar.');
 
-      // Detectar campo de fecha dinámicamente
-      const firstRow = data[0];
-      const dateField = ['created_at','fecha','fecha_registro','timestamp','date','created'].find(f => firstRow[f] !== undefined);
-
-      // 2. Generar CSV
+      // Generar CSV
       const headers = ['Nombre', 'Email', 'Fuente', 'Fecha Registro'];
       const csvRows = [
-        headers.join(','), // Cabecera
+        headers.join(','),
         ...data.map(s => [
-          `"${(s.name || s.nombre || s.full_name || '').replace(/"/g, '""')}"`,
-          `"${(s.email || s.correo || '').replace(/"/g, '""')}"`,
-          `"${(s.source || s.fuente || s.origen || 'web').replace(/"/g, '""')}"`,
-          `"${dateField && s[dateField] ? new Date(s[dateField]).toLocaleDateString('es-ES') : '-'}"`
+          `"${(s.name || '').replace(/"/g, '""')}"`,
+          `"${(s.email || '').replace(/"/g, '""')}"`,
+          `"${(s.source || 'web').replace(/"/g, '""')}"`,
+          `"${s.created_at ? new Date(s.created_at).toLocaleDateString('es-ES') : '-'}"`
         ].join(','))
       ];
       const csvString = csvRows.join('\n');
 
-      // 3. Descargar archivo
+      // Descargar archivo
       const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', `simpatizantes_somos_hispanidad_${new Date().toISOString().slice(0,10)}.csv`);
+      link.setAttribute('download', `simpatizantes_iaparaseniors_${new Date().toISOString().slice(0,10)}.csv`);
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
@@ -919,25 +907,22 @@ document.addEventListener('DOMContentLoaded', async function () {
       txtEl.textContent = 'Brevo configurado (Serverless API).';
     }
 
-    // 2. Cargar simpatizantes para el preview desde tabla contactos
+    // 2. Cargar simpatizantes para el preview desde tabla supporters
     const preview = document.getElementById('mkt-lista-preview');
     const btnMasivo = document.getElementById('btn-enviar-masivo');
-    
+
     const { data, error } = await supabaseClient
-      .from('contactos')
-      .select('*');
+      .from('supporters')
+      .select('name, email')
+      .order('created_at', { ascending: false });
 
     if (error || !data) {
       if (preview) preview.innerHTML = '<span style="color:red;">Error cargando simpatizantes: ' + (error?.message || 'desconocido') + '</span>';
       return;
     }
 
-    // Normalizar nombre con fallbacks
-    const normName = (s) => s.name || s.nombre || s.full_name || s.nombre_completo || '(sin nombre)';
-    const normEmail = (s) => s.email || s.correo || '';
-
-    // Mapear al formato que necesita el envío masivo
-    simpatizantesCache = data.map(s => ({ name: normName(s), email: normEmail(s) })).filter(s => s.email);
+    // Con tabla supporters, las columnas son fijas (name, email)
+    simpatizantesCache = data.map(s => ({ name: s.name || '(sin nombre)', email: s.email || '' })).filter(s => s.email);
 
     if (preview) {
       if (simpatizantesCache.length === 0) {
@@ -946,7 +931,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
       preview.innerHTML = `
         <strong>${simpatizantesCache.length} simpatizantes activos:</strong><br>
-        <span style="color:#5a4a3a;">${data.slice(0,5).map(s => s.name || s.nombre).join(', ')}${data.length > 5 ? ` y ${data.length - 5} más...` : ''}</span>
+        <span style="color:#5a4a3a;">${data.slice(0,5).map(s => s.name).join(', ')}${data.length > 5 ? ` y ${data.length - 5} más...` : ''}</span>
       `;
       if (btnMasivo) btnMasivo.disabled = false;
     }
@@ -1285,38 +1270,20 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (msg) msg.style.display = 'none';
 
       try {
-        // 1. Insertar en contactos — detectar columnas reales antes de insertar
-        // Primero obtenemos un registro de muestra para saber los nombres reales de columnas
-        const { data: sampleRows } = await supabaseClient.from('contactos').select('*').limit(1);
-
-        // Detectar campo de nombre
-        const sampleRow = sampleRows && sampleRows.length > 0 ? sampleRows[0] : {};
-        const colNombre = ('name'   in sampleRow) ? 'name'
-                        : ('nombre' in sampleRow) ? 'nombre'
-                        : ('full_name' in sampleRow) ? 'full_name'
-                        : ('nombre_completo' in sampleRow) ? 'nombre_completo'
-                        : 'nombre'; // fallback
-        const colEmail  = ('email'  in sampleRow) ? 'email'
-                        : ('correo' in sampleRow) ? 'correo'
-                        : 'email'; // fallback
-        const colSource = ('source' in sampleRow) ? 'source'
-                        : ('fuente' in sampleRow) ? 'fuente'
-                        : ('origen' in sampleRow) ? 'origen'
-                        : null; // puede no existir
-
-        // Buscar si ya existe por email (usando el campo real)
-        const { data: existingSup } = await supabaseClient.from('contactos')
-          .select('id').eq(colEmail, email).maybeSingle();
+        // 1. Insertar en tabla supporters (tabla canónica de simpatizantes)
+        const { data: existingSup } = await supabaseClient
+          .from('supporters')
+          .select('id')
+          .eq('email', email)
+          .maybeSingle();
 
         if (!existingSup) {
-          const insertPayload = {
-            [colNombre]: nombre,
-            [colEmail]: email,
-          };
-          if (colSource) {
-            insertPayload[colSource] = event_id ? `Evento: ${eventTitle}` : (fuente || 'Alta manual admin');
-          }
-          const { error: supError } = await supabaseClient.from('contactos').insert([insertPayload]);
+          const { error: supError } = await supabaseClient.from('supporters').insert([{
+            name: nombre,
+            email: email,
+            source: event_id ? `Evento: ${eventTitle}` : (fuente || 'Alta manual admin'),
+            consent: false
+          }]);
           if (supError) throw new Error('Error al guardar en simpatizantes: ' + supError.message);
         }
 
