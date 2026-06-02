@@ -91,6 +91,10 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.92 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         Marketing
       </a>
+      <a href="#" class="admin-nav-link" data-panel="estadisticas">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Estadísticas
+      </a>
     </nav>
     <div class="admin-sidebar-footer" style="display:flex; flex-direction:column; gap:8px;">
       <a href="https://supabase.com/dashboard/project/fzftntxrkagnvchhwehn/editor" target="_blank" class="admin-nav-link" style="font-size:0.75rem; font-weight: 600; color: #10b981; margin-bottom:10px;">
@@ -295,6 +299,57 @@
           </div>
           <div style="margin-top: 12px; font-size: 0.78rem; color: #9a8a7a;">
             Service ID: <code>service_sfxfhke</code> · Template: <code>template_5jjf7vs</code>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PANEL: ESTADÍSTICAS -->
+    <div class="admin-panel" id="panel-estadisticas">
+      <div class="admin-panel-header">
+        <h2>Estadísticas de Visitas</h2>
+      </div>
+      
+      <div style="max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        
+        <div style="background:#fff; border: 1px solid #e8e0d0; border-radius: 8px; padding: 32px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+          
+          <div style="width: 64px; height: 64px; background: rgba(201,168,76,0.15); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          
+          <h3 style="font-family:'Cinzel',serif; font-size:1.3rem; margin-bottom:12px; color:var(--sepia-deep);">Tráfico web y Estadísticas</h3>
+          
+          <p style="color:var(--ink-soft); font-size:0.95rem; line-height:1.6; margin-bottom:24px; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Las estadísticas de la web (visitas, páginas vistas, dispositivos) se recogen automáticamente y se procesan de forma segura a través de <strong>Vercel Web Analytics</strong>, la plataforma de alojamiento oficial de IAparaseniors.
+          </p>
+          
+          <a href="https://vercel.com/javierjavierman-ui/miweb-2026/analytics" target="_blank" class="admin-btn admin-btn-primary" style="display:inline-flex; align-items:center; gap:8px; padding: 12px 24px; font-size: 0.85rem; border-radius: 6px;">
+            Ver Estadísticas Completas en Vercel
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #f0ece1; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; text-align: left;">
+            <div>
+              <h4 style="font-size: 0.8rem; font-weight: 700; color: var(--sepia-dark); margin-bottom: 8px;">¿Qué podré ver allí?</h4>
+              <ul style="font-size: 0.85rem; color: var(--ink-soft); padding-left: 16px; line-height: 1.6;">
+                <li>Número de visitantes únicos</li>
+                <li>Páginas más visitadas</li>
+                <li>Países de origen de las visitas</li>
+                <li>Sistemas operativos (PC vs Móvil)</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size: 0.8rem; font-weight: 700; color: var(--sepia-dark); margin-bottom: 8px;">Acceso</h4>
+              <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.6;">
+                Al hacer clic en el botón superior, accederás al panel de Vercel. Si te pide iniciar sesión, utiliza tu cuenta de GitHub (<strong>javierjavierman-ui</strong>) con la que está vinculado el proyecto.
+              </p>
+            </div>
           </div>
         </div>
 
