@@ -10,11 +10,12 @@ html {
 
 /* Fuente principal y cursores */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: #ffffff; /* Fondo principalmente blanco */
-    color: #1f2937; /* Gris oscuro para el texto */
-    transition: all 0.3s ease;
-    cursor: default; /* Aspecto profesional del puntero base */
+  overflow-x: hidden; /* Evita scroll horizontal en móvil */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  cursor: default;
 }
 
 a, button, .card-hover, input[type="submit"] {
