@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // ── CONFIGURACIÓN BREVO (MARKETING Y EMAILS) ──
   async function sendBrevoEmail(toEmail, toName, subject, htmlContent, senderName) {
-    const response = await fetch('/api/brevo', {
+    const response = await fetch('/api/brevo/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -25,8 +25,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
     
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error en el servidor al enviar email');
+      let errorMsg = 'Error en el servidor al enviar email';
+      try {
+        const errorData = await response.json();
+        errorMsg = errorData.message || errorMsg;
+      } catch(_) {
+        errorMsg = `Error HTTP ${response.status}: ${response.statusText}`;
+      }
+      throw new Error(errorMsg);
     }
     return response.json();
   }
@@ -1127,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         await sendBrevoEmail(testEmail, 'Test User', '[PRUEBA] ' + asunto, cuerpo, firma);
         if (resultEl) { resultEl.style.display = 'block'; resultEl.style.background = '#f0fdf4'; resultEl.style.color = '#166534'; resultEl.textContent = '✅ Email de prueba enviado a ' + testEmail; }
       } catch(err) {
-        if (resultEl) { resultEl.style.display = 'block'; resultEl.style.background = '#fef2f2'; resultEl.style.color = '#991b1b'; resultEl.textContent = '❌ Error: ' + err.text; }
+        if (resultEl) { resultEl.style.display = 'block'; resultEl.style.background = '#fef2f2'; resultEl.style.color = '#991b1b'; resultEl.textContent = '❌ Error: ' + (err.message || err); }
       }
 
       btnPrueba.disabled = false;
@@ -1353,7 +1359,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // 2. Enviar email de confirmación automático
     try {
-      if (BREVO_API_KEY && currentEventoTitulo) {
+      if (currentEventoTitulo) {
         await sendBrevoEmail(email, nombre, `Inscripción en ${currentEventoTitulo} recibida`, `Su inscripción en ${currentEventoTitulo} ha sido recibida, próximamente recibirá confirmación de su solicitud. Gracias por contactar con IAparaseniors`, 'Administración IAparaseniors');
         console.log('✅ Email de confirmación enviado a', email);
       }
