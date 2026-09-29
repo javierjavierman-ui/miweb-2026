@@ -6,6 +6,16 @@
 <meta name="description" content="Panel de administración privado de IAparaseniors. Gestión de eventos, contenidos, autores, simpatizantes y mensajes.">
 <meta name="robots" content="noindex, nofollow">
 <title>Panel de Administración — IAparaseniors</title>
+<!-- Favicons e Iconografía del Panel de Administración -->
+<link rel="icon" type="image/svg+xml" href="../assets/images/admin-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/admin-favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../assets/images/admin-favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/images/admin-apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2c1a0e">
+<meta name="apple-mobile-web-app-title" content="IA Admin">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Cinzel:wght@400;600&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin.css">
@@ -48,11 +58,22 @@
 <div id="update-password-wrapper" class="admin-login-wrapper" style="display:none;">
   <div class="admin-login-box">
     <div class="admin-logo" style="margin-bottom: 24px; text-align: center;">Nueva <span>Contraseña</span></div>
-    <p style="font-size: 0.85rem; color: var(--ink-light); margin-bottom: 16px; text-align: center;">Introduce tu nueva contraseña.</p>
+    <p style="font-size: 0.85rem; color: var(--ink-light); margin-bottom: 16px; text-align: center;">Introduce tu nueva contraseña para acceder al panel.</p>
     <form id="admin-update-password-form">
-      <input type="password" id="update-password-input" class="admin-form-input" placeholder="Nueva contraseña" required style="width:100%; margin-bottom:16px; padding:10px;">
+      <div style="position:relative; margin-bottom:12px;">
+        <input type="password" id="update-password-input" class="admin-form-input" placeholder="Nueva contraseña (mínimo 6 caracteres)" required minlength="6" style="width:100%; padding:10px 40px 10px 12px;">
+        <button type="button" class="toggle-password-btn" data-target="update-password-input" aria-label="Mostrar contraseña" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--sepia); padding:4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div style="position:relative; margin-bottom:16px;">
+        <input type="password" id="update-password-confirm" class="admin-form-input" placeholder="Confirmar nueva contraseña" required minlength="6" style="width:100%; padding:10px 40px 10px 12px;">
+        <button type="button" class="toggle-password-btn" data-target="update-password-confirm" aria-label="Mostrar contraseña" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--sepia); padding:4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
       <button type="submit" class="admin-btn admin-btn-primary" style="width:100%">Actualizar contraseña</button>
-      <div id="update-msg" style="font-size:0.8rem; margin-top:10px; display:none; text-align: center;"></div>
+      <div id="update-msg" style="font-size:0.85rem; margin-top:12px; display:none; text-align: center;"></div>
     </form>
   </div>
 </div>
@@ -97,7 +118,11 @@
       </a>
     </nav>
     <div class="admin-sidebar-footer" style="display:flex; flex-direction:column; gap:8px;">
-      <a href="https://supabase.com/dashboard/project/fzftntxrkagnvchhwehn/editor" target="_blank" class="admin-nav-link" style="font-size:0.75rem; font-weight: 600; color: #10b981; margin-bottom:10px;">
+      <a href="#" id="link-sidebar-change-password" class="admin-nav-link" style="font-size:0.75rem; color: var(--gold-light);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Cambiar contraseña
+      </a>
+      <a href="https://supabase.com/dashboard/project/uvsvyelbhjhenufndbcw/editor" target="_blank" class="admin-nav-link" style="font-size:0.75rem; font-weight: 600; color: #10b981; margin-bottom:6px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         Base de Datos (Supabase)
       </a>
@@ -120,6 +145,10 @@
       <h1 class="admin-topbar-title" id="panel-title">Gestión de Eventos</h1>
       <div class="admin-topbar-actions">
         <span class="admin-user">Admin</span>
+        <button type="button" id="btn-open-change-password" class="admin-btn admin-btn-outline" style="display:inline-flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Cambiar contraseña
+        </button>
         <a href="#" class="admin-btn admin-btn-outline">Cerrar sesión</a>
       </div>
     </div>
@@ -629,6 +658,42 @@
         <button type="button" id="btn-cancelar-add-simpatizante" class="admin-btn admin-btn-outline" style="flex:1;">Cancelar</button>
       </div>
       <div id="add-simp-msg" style="margin-top:12px; font-size:0.83rem; display:none; padding:10px; border-radius:4px;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: CAMBIAR CONTRASEÑA (DESDE EL DASHBOARD) -->
+<div id="modal-change-password" class="admin-modal" style="display:none;">
+  <div class="admin-modal-content" style="max-width: 440px;">
+    <div class="admin-modal-header">
+      <h2>Cambiar Contraseña</h2>
+      <button type="button" class="admin-close-modal" id="btn-close-change-password">&times;</button>
+    </div>
+    <p style="font-size: 0.85rem; color: var(--ink-light); margin-bottom: 16px;">Introduce y confirma tu nueva contraseña para acceder al panel.</p>
+    <form id="form-change-password-modal">
+      <div class="admin-form-group">
+        <label for="modal-new-password">Nueva contraseña (mínimo 6 caracteres) *</label>
+        <div style="position:relative;">
+          <input type="password" id="modal-new-password" class="admin-form-input" required minlength="6" placeholder="Escribe tu nueva clave" style="width:100%; padding:10px 40px 10px 12px;">
+          <button type="button" class="toggle-password-btn" data-target="modal-new-password" aria-label="Mostrar contraseña" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--sepia); padding:4px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label for="modal-confirm-password">Confirmar nueva contraseña *</label>
+        <div style="position:relative;">
+          <input type="password" id="modal-confirm-password" class="admin-form-input" required minlength="6" placeholder="Repite tu nueva clave" style="width:100%; padding:10px 40px 10px 12px;">
+          <button type="button" class="toggle-password-btn" data-target="modal-confirm-password" aria-label="Mostrar contraseña" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--sepia); padding:4px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="modal-change-password-msg" style="font-size:0.85rem; margin-top:10px; margin-bottom:14px; display:none; padding:8px 12px; border-radius:4px;"></div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+        <button type="button" class="admin-btn admin-btn-outline" id="btn-cancel-change-password">Cancelar</button>
+        <button type="submit" class="admin-btn admin-btn-primary">Guardar Contraseña</button>
+      </div>
     </form>
   </div>
 </div>

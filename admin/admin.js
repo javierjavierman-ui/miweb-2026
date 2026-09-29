@@ -50,8 +50,35 @@ document.addEventListener('DOMContentLoaded', async function () {
   // ── AUTENTICACIÓN CON SUPABASE ─────────────────────
   let isRecoveryMode = false;
 
+  // Detección proactiva de flujo de recuperación en URL (Hash o Query)
+  const currentHash = window.location.hash || '';
+  const currentSearch = window.location.search || '';
+  if (currentHash.includes('type=recovery') || currentSearch.includes('type=recovery')) {
+    isRecoveryMode = true;
+    if (loginWrapper) loginWrapper.style.display = 'none';
+    if (dashboardWrapper) dashboardWrapper.style.display = 'none';
+    if (recoveryWrapper) recoveryWrapper.style.display = 'none';
+    if (updatePasswordWrapper) updatePasswordWrapper.style.display = 'flex';
+  }
+
+  // Toggle de visibilidad de contraseñas (mostrar/ocultar)
+  document.querySelectorAll('.toggle-password-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      if (!input) return;
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      this.innerHTML = isPassword
+        ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+        : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    });
+  });
+
   // Muestra el dashboard con una sesión ya disponible (evita re-llamar getSession)
   function showDashboard(session) {
+    if (isRecoveryMode) return;
     loginWrapper.style.display = 'none';
     recoveryWrapper.style.display = 'none';
     updatePasswordWrapper.style.display = 'none';
@@ -118,12 +145,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         loginError.textContent = msg;
         loginError.style.display = 'block';
       } else if (data?.session) {
-        // ✅ SAFARI iOS FIX: usar la sesión devuelta directamente
-        // En Safari iOS, getSession() puede devolver null si localStorage
-        // aún no ha persistido el token. Usamos data.session directamente.
         showDashboard(data.session);
       } else {
-        // Fallback: intentar getSession con un pequeño delay
         setTimeout(async () => {
           await checkAuth();
         }, 300);
@@ -144,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     loginWrapper.style.display = 'flex';
   });
 
-  // Formulario de Recuperación
+  // Formulario de Recuperación ("¿Olvidaste tu contraseña?")
   if (recoveryForm) {
     recoveryForm.addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -165,43 +188,163 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       msg.style.display = 'block';
       if (error) {
-        msg.style.color = 'red';
+        msg.style.color = '#dc2626';
         msg.textContent = 'Error: ' + error.message;
       } else {
-        msg.style.color = 'green';
-        msg.textContent = '¡Enlace enviado! Revisa tu bandeja de entrada.';
+        msg.style.color = '#16a34a';
+        msg.textContent = '¡Enlace enviado! Revisa tu bandeja de entrada (y la carpeta de spam).';
       }
     });
   }
 
-  // Formulario de Nueva Contraseña
+  // Formulario de Nueva Contraseña (Desde enlace de recuperación externo)
   if (updatePasswordForm) {
     updatePasswordForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const password = document.getElementById('update-password-input').value;
+      const p1 = document.getElementById('update-password-input').value;
+      const p2 = document.getElementById('update-password-confirm')?.value;
       const msg = document.getElementById('update-msg');
-      const btn = updatePasswordForm.querySelector('button');
+      const btn = updatePasswordForm.querySelector('button[type="submit"]');
 
       msg.style.display = 'none';
+
+      if (p2 !== undefined && p1 !== p2) {
+        msg.style.color = '#dc2626';
+        msg.textContent = 'Las contraseñas no coinciden.';
+        msg.style.display = 'block';
+        return;
+      }
+
+      if (p1.length < 6) {
+        msg.style.color = '#dc2626';
+        msg.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+        msg.style.display = 'block';
+        return;
+      }
+
       btn.textContent = 'Actualizando...';
       btn.disabled = true;
 
-      const { error } = await supabaseClient.auth.updateUser({ password: password });
+      const { error } = await supabaseClient.auth.updateUser({ password: p1 });
 
       btn.textContent = 'Actualizar contraseña';
       btn.disabled = false;
 
       msg.style.display = 'block';
       if (error) {
-        msg.style.color = 'red';
+        msg.style.color = '#dc2626';
         msg.textContent = 'Error: ' + error.message;
       } else {
-        msg.style.color = 'green';
-        msg.textContent = '¡Contraseña actualizada! Volviendo al inicio...';
-        setTimeout(() => {
+        msg.style.color = '#16a34a';
+        msg.textContent = '¡Contraseña actualizada con éxito! Entrando al panel...';
+
+        // Limpiar hash de la URL para que no quede expuesto el token
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+
+        setTimeout(async () => {
           isRecoveryMode = false;
-          checkAuth();
-        }, 2000);
+          updatePasswordWrapper.style.display = 'none';
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (session) {
+            showDashboard(session);
+          } else {
+            loginWrapper.style.display = 'flex';
+          }
+        }, 1500);
+      }
+    });
+  }
+
+  // ── MODAL: CAMBIAR CONTRASEÑA (DESDE EL DASHBOARD) ────────────────
+  const modalChangePassword = document.getElementById('modal-change-password');
+  const btnOpenChangePassword = document.getElementById('btn-open-change-password');
+  const linkSidebarChangePassword = document.getElementById('link-sidebar-change-password');
+  const btnCloseChangePassword = document.getElementById('btn-close-change-password');
+  const btnCancelChangePassword = document.getElementById('btn-cancel-change-password');
+  const formChangePasswordModal = document.getElementById('form-change-password-modal');
+  const msgChangePasswordModal = document.getElementById('modal-change-password-msg');
+
+  function openChangePasswordModal(e) {
+    if (e) e.preventDefault();
+    if (modalChangePassword) {
+      modalChangePassword.style.display = 'flex';
+      formChangePasswordModal?.reset();
+      if (msgChangePasswordModal) {
+        msgChangePasswordModal.style.display = 'none';
+        msgChangePasswordModal.textContent = '';
+      }
+      setTimeout(() => {
+        document.getElementById('modal-new-password')?.focus();
+      }, 50);
+    }
+  }
+
+  function closeChangePasswordModal() {
+    if (modalChangePassword) modalChangePassword.style.display = 'none';
+  }
+
+  btnOpenChangePassword?.addEventListener('click', openChangePasswordModal);
+  linkSidebarChangePassword?.addEventListener('click', openChangePasswordModal);
+  btnCloseChangePassword?.addEventListener('click', closeChangePasswordModal);
+  btnCancelChangePassword?.addEventListener('click', closeChangePasswordModal);
+  modalChangePassword?.addEventListener('click', (e) => {
+    if (e.target === modalChangePassword) closeChangePasswordModal();
+  });
+
+  if (formChangePasswordModal) {
+    formChangePasswordModal.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('modal-new-password').value;
+      const p2 = document.getElementById('modal-confirm-password').value;
+      const submitBtn = formChangePasswordModal.querySelector('button[type="submit"]');
+
+      msgChangePasswordModal.style.display = 'none';
+
+      if (p1 !== p2) {
+        msgChangePasswordModal.style.color = '#b91c1c';
+        msgChangePasswordModal.style.backgroundColor = '#fef2f2';
+        msgChangePasswordModal.textContent = 'Las contraseñas no coinciden.';
+        msgChangePasswordModal.style.display = 'block';
+        return;
+      }
+
+      if (p1.length < 6) {
+        msgChangePasswordModal.style.color = '#b91c1c';
+        msgChangePasswordModal.style.backgroundColor = '#fef2f2';
+        msgChangePasswordModal.textContent = 'La contraseña debe tener un mínimo de 6 caracteres.';
+        msgChangePasswordModal.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Guardando...';
+
+      try {
+        const { error } = await supabaseClient.auth.updateUser({ password: p1 });
+        if (error) {
+          msgChangePasswordModal.style.color = '#b91c1c';
+          msgChangePasswordModal.style.backgroundColor = '#fef2f2';
+          msgChangePasswordModal.textContent = 'Error: ' + error.message;
+          msgChangePasswordModal.style.display = 'block';
+        } else {
+          msgChangePasswordModal.style.color = '#15803d';
+          msgChangePasswordModal.style.backgroundColor = '#f0fdf4';
+          msgChangePasswordModal.textContent = '¡Contraseña actualizada correctamente!';
+          msgChangePasswordModal.style.display = 'block';
+          setTimeout(() => {
+            closeChangePasswordModal();
+          }, 1500);
+        }
+      } catch (err) {
+        msgChangePasswordModal.style.color = '#b91c1c';
+        msgChangePasswordModal.style.backgroundColor = '#fef2f2';
+        msgChangePasswordModal.textContent = 'Error de conexión al actualizar la contraseña.';
+        msgChangePasswordModal.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Guardar Contraseña';
       }
     });
   }
@@ -215,22 +358,32 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  // Verificar estado inicial
-  await checkAuth();
-
-  // Escuchar cambios de auth
+  // Escuchar cambios de auth ANTES de checkAuth
   supabaseClient.auth.onAuthStateChange((event, session) => {
     console.log('Auth event:', event);
     if (event === 'PASSWORD_RECOVERY') {
       isRecoveryMode = true;
-      loginWrapper.style.display = 'none';
-      dashboardWrapper.style.display = 'none';
-      recoveryWrapper.style.display = 'none';
-      updatePasswordWrapper.style.display = 'flex';
-    } else if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-      if (!isRecoveryMode) checkAuth();
+      if (loginWrapper) loginWrapper.style.display = 'none';
+      if (dashboardWrapper) dashboardWrapper.style.display = 'none';
+      if (recoveryWrapper) recoveryWrapper.style.display = 'none';
+      if (updatePasswordWrapper) updatePasswordWrapper.style.display = 'flex';
+    } else if (event === 'SIGNED_IN') {
+      if (!isRecoveryMode && session) {
+        showDashboard(session);
+      }
+    } else if (event === 'SIGNED_OUT') {
+      isRecoveryMode = false;
+      if (loginWrapper) loginWrapper.style.display = 'flex';
+      if (recoveryWrapper) recoveryWrapper.style.display = 'none';
+      if (updatePasswordWrapper) updatePasswordWrapper.style.display = 'none';
+      if (dashboardWrapper) dashboardWrapper.style.display = 'none';
     }
   });
+
+  // Verificar estado inicial si no estamos en recuperación
+  if (!isRecoveryMode) {
+    await checkAuth();
+  }
 
   // ── NAVEGACIÓN ENTRE PANELES ──────────────────────
   const navLinks = document.querySelectorAll('.admin-nav-link[data-panel]');
