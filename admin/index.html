@@ -6,19 +6,24 @@
 <meta name="description" content="Panel de administración privado de IAparaseniors. Gestión de eventos, contenidos, autores, simpatizantes y mensajes.">
 <meta name="robots" content="noindex, nofollow">
 <title>Panel de Administración — IAparaseniors</title>
+<script>
+  if (window.location.protocol !== 'file:' && window.location.pathname === '/admin') {
+    window.location.replace('/admin/' + window.location.search + window.location.hash);
+  }
+</script>
 <!-- Favicons e Iconografía del Panel de Administración -->
-<link rel="icon" type="image/svg+xml" href="../assets/images/admin-favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/admin-favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../assets/images/admin-favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="../assets/images/admin-apple-touch-icon.png">
-<link rel="shortcut icon" href="favicon.ico">
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/assets/images/admin-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/admin-favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/admin-favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/admin-apple-touch-icon.png">
+<link rel="shortcut icon" href="/admin/favicon.ico">
+<link rel="manifest" href="/admin/manifest.webmanifest">
 <meta name="theme-color" content="#2c1a0e">
 <meta name="apple-mobile-web-app-title" content="IA Admin">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Cinzel:wght@400;600&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
 
@@ -620,7 +625,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../supabaseClient.js"></script>
+<script src="/supabaseClient.js"></script>
 <!-- Brevo setup pending -->
 
 <!-- MODAL AÑADIR SIMPATIZANTE -->
@@ -698,7 +703,7 @@
   </div>
 </div>
 
-<script src="admin.js"></script>
+<script src="/admin/admin.js"></script>
 
 <!-- Toggle sidebar móvil -->
 <script>
