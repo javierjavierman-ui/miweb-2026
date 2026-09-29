@@ -179,8 +179,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       btn.textContent = 'Enviando...';
       btn.disabled = true;
 
+      const redirectUrl = window.location.origin.includes('localhost')
+        ? (window.location.origin + window.location.pathname)
+        : 'https://www.iaparaseniors.org/admin/';
+
       const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + window.location.pathname
+        redirectTo: redirectUrl
       });
 
       btn.textContent = 'Enviar enlace';
