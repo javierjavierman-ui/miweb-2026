@@ -1,9 +1,4 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Método no permitido' });
-  }
-
-  const { toEmail, toName, subject, htmlContent, senderName } = req.body || {};
   let BREVO_API_KEY = process.env.BREVO_API_KEY;
 
   if (!BREVO_API_KEY) {
@@ -11,6 +6,29 @@ export default async function handler(req, res) {
   }
 
   BREVO_API_KEY = BREVO_API_KEY.trim().replace(/^["']|["']$/g, '');
+
+  if (req.method === 'GET') {
+    try {
+      const accRes = await fetch('https://api.brevo.com/v3/account', {
+        headers: { 'accept': 'application/json', 'api-key': BREVO_API_KEY }
+      });
+      const accData = await accRes.json();
+      return res.status(accRes.status).json({
+        status: accRes.status,
+        keyLength: BREVO_API_KEY.length,
+        keyPrefix: BREVO_API_KEY.substring(0, 12),
+        brevoResponse: accData
+      });
+    } catch(err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Método no permitido' });
+  }
+
+  const { toEmail, toName, subject, htmlContent, senderName } = req.body || {};
 
   if (BREVO_API_KEY.includes('*')) {
     return res.status(400).json({
